@@ -9,3 +9,76 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id          String  @unique @default(uuid())
+  userId      String  @unique
+  user_name   String
+  first_name  String
+  last_name   String
+  imageURL    String
+  phone_no    BigInt?
+  description String? @db.Text
+  bio         String?
+  emoje       String?
+
+  genderId String?
+  gender   Gender? @relation(fields: [genderId], references: [id])
+
+  threads Threads[]
+
+  createAt  DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  Commands  Commands[]
+  Likes     Likes[]
+}
+
+model Gender {
+  id   String @unique @default(uuid())
+  type String @unique
+  user User[]
+}
+
+model Threads {
+  id          String  @unique @default(uuid())
+  userId      String
+  assert      String
+  description String? @db.Text
+  threadUrl   String  @unique
+
+  likes    Likes[]
+  commands Commands[]
+
+  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  like_count BigInt @default(0)
+
+  @@index([userId])
+}
+
+model Likes {
+  id String @unique @default(uuid())
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  threadId String
+  thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@unique([threadId, userId])
+  @@index([threadId])
+}
+
+model Commands {
+  id      String @unique @default(uuid())
+  command String @db.Text
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  threadId String
+  thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  @@unique([threadId, userId])
+  @@index([threadId])
+}
