@@ -18,19 +18,20 @@ model User {
   last_name   String
   imageURL    String
   phone_no    BigInt?
-  description String? @db.Text
   bio         String?
   emoje       String?
 
   genderId String?
   gender   Gender? @relation(fields: [genderId], references: [id])
 
-  threads Threads[]
+  threads  Threads[]
+  Likes    Likes[]
+  Commands Commands[]
 
-  createAt  DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  Commands  Commands[]
-  Likes     Likes[]
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 model Gender {
