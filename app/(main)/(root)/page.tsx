@@ -3,7 +3,7 @@ import React from "react";
 
 export default function MainPage() {
   return (
-    <div>
+    <div className="flex justify-between items-center">
       MainPage
       <UserButton afterSignOutUrl="/sign-in" />
     </div>

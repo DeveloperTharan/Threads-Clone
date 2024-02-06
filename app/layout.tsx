@@ -1,16 +1,29 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Roboto } from "next/font/google";
 
 import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ThemeProvider } from "@/provider/theme-provider";
 
-const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto({
+  weight: ["400", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin", "greek", "cyrillic"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Threads",
   description: "Threads",
+  icons: {
+    icon: [
+      {
+        url: "/meta-logo.webp",
+        href: "/meta-logo.webp",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
@@ -19,16 +32,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>
-        <ClerkProvider
-          appearance={{
-            baseTheme: dark,
-          }}
-        >
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
+      <html lang="en">
+        <body className={roboto.className}>
           <ThemeProvider>{children}</ThemeProvider>
-        </ClerkProvider>
-      </body>
-    </html>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
