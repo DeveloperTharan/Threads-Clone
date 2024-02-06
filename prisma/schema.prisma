@@ -11,22 +11,25 @@ datasource db {
 }
 
 model User {
-  id          String  @unique @default(uuid())
-  userId      String  @unique
-  user_name   String
-  first_name  String
-  last_name   String
-  imageURL    String
-  phone_no    BigInt?
-  bio         String?
-  emoje       String?
+  id         String  @unique @default(uuid())
+  userId     String  @unique
+  user_name  String
+  first_name String
+  last_name  String
+  imageURL   String
+  phone_no   String?
+  bio        String?
+  emoje      String?
 
   genderId String?
   gender   Gender? @relation(fields: [genderId], references: [id])
 
   threads  Threads[]
-  Likes    Likes[]
-  Commands Commands[]
+  likes    Likes[]
+  commands Commands[]
+
+  followers Follows[] @relation("following")
+  following Follows[] @relation("follower")
 
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -38,6 +41,23 @@ model Gender {
   id   String @unique @default(uuid())
   type String @unique
   user User[]
+}
+
+model Follows {
+  id String @unique @default(uuid())
+
+  followerId String
+  follower   User   @relation("follower", fields: [followerId], references: [id])
+
+  followingId String
+  following   User   @relation("following", fields: [followingId], references: [id])
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@id([followerId, followingId])
+  @@index([followerId])
+  @@index([followingId])
 }
 
 model Threads {
@@ -54,6 +74,9 @@ model Threads {
 
   like_count BigInt @default(0)
 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([userId])
 }
 
@@ -65,6 +88,8 @@ model Likes {
 
   threadId String
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  createAt DateTime @default(now())
 
   @@unique([threadId, userId])
   @@index([threadId])
@@ -79,6 +104,9 @@ model Commands {
 
   threadId String
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([threadId, userId])
   @@index([threadId])
