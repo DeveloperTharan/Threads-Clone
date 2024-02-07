@@ -66,8 +66,8 @@ export async function POST(req: Request) {
       data: {
         userId: payload?.data?.id,
         user_name: payload?.data?.username || "",
-        first_name: payload?.data?.first_name || "",
-        last_name: payload?.data?.last_name || "",
+        official_name: payload?.data?.first_name + payload?.data?.last_name || "",
+        email: payload?.data?.email_addresses[0]?.email_address,
         imageURL: payload?.data?.image_url,
       },
     });

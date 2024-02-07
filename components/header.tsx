@@ -64,7 +64,7 @@ export const Header = () => {
   return (
     <div
       className={cn(
-        "w-full h-fit py-1 sticky top-0 bg-transparent px-4 md:px-0",
+        "w-full h-fit py-1 sticky top-0 bg-transparent px-4 md:px-0 z-50",
         isScrolled && "backdrop-blur-sm bg-black/20"
       )}
     >

@@ -35,7 +35,7 @@ export const BottomBar = () => {
     },
   ];
   return (
-    <div className="w-full h-fit py-1 bg-neutral-900 rounded-t-3xl fixed md:hidden bottom-0 left-0">
+    <div className="w-full h-fit py-1 bg-neutral-900 rounded-t-3xl fixed md:hidden bottom-0 left-0 z-50">
       <div className="flex flex-row items-center justify-evenly">
       {menu.map((items) => (
         <div
