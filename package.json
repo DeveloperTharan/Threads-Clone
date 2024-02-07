@@ -14,6 +14,8 @@
   "dependencies": {
     "@clerk/nextjs": "^4.29.6",
     "@clerk/themes": "^1.7.9",
+    "@edgestore/react": "^0.1.6",
+    "@edgestore/server": "^0.1.6",
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.9.1",
     "@radix-ui/react-dialog": "^1.0.5",

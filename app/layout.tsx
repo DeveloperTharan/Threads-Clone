@@ -4,6 +4,7 @@ import { Roboto } from "next/font/google";
 
 import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
+import { EdgeStoreProvider } from "../lib/edgestore";
 import { ToastContainer, Zoom } from "react-toastify";
 import { ThemeProvider } from "@/provider/theme-provider";
 
@@ -41,7 +42,7 @@ export default function RootLayout({
           }}
         >
           <ThemeProvider>
-            {children}
+            <EdgeStoreProvider>{children}</EdgeStoreProvider>
             <ToastContainer
               position="bottom-right"
               autoClose={5000}
