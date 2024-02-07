@@ -11,22 +11,20 @@ datasource db {
 }
 
 model User {
-  id         String  @unique @default(uuid())
-  userId     String  @unique
-  user_name  String
-  first_name String
-  last_name  String
-  imageURL   String
-  phone_no   String?
-  bio        String?
-  emoje      String?
+  id            String  @unique @default(uuid())
+  userId        String  @unique
+  user_name     String
+  official_name String
+  imageURL      String
+  email         String  @unique
+  phone_no      String?
+  bio           String?
+  emoje         String?
 
   genderId String?
   gender   Gender? @relation(fields: [genderId], references: [id])
 
-  threads  Threads[]
-  likes    Likes[]
-  commands Commands[]
+  threads Threads[]
 
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
@@ -83,15 +81,12 @@ model Threads {
 model Likes {
   id String @unique @default(uuid())
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   threadId String
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
   createAt DateTime @default(now())
 
-  @@unique([threadId, userId])
+  @@unique([threadId])
   @@index([threadId])
 }
 
@@ -99,15 +94,12 @@ model Commands {
   id      String @unique @default(uuid())
   command String @db.Text
 
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   threadId String
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([threadId, userId])
+  @@unique([threadId])
   @@index([threadId])
 }
