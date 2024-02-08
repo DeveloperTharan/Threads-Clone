@@ -32,8 +32,8 @@ export const UserInfo = ({ userData }: UserData) => {
               {userData.gender?.id || "He/Him"}
             </span>
           </div>
-          <div>{userData.emoje === null ? "no status" : userData.emoje}</div>
-          <p>{userData.bio === null ? "no bio" : userData.bio}</p>
+          <div>{userData.emoje === null ? "" : userData.emoje}</div>
+          <p>{userData.bio === null ? "" : userData.bio}</p>
           <div className="flex flex-row items-center gap-x-7 my-2">
             <div
               className="text-sm text-neutral-500 hover:underline"

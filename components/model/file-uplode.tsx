@@ -14,6 +14,7 @@ import { SlCloudUpload } from "react-icons/sl";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 import { useEdgeStore } from "@/lib/edgestore";
+import { Spinner } from "../ui/spinner";
 
 interface FileUplodeProps {
   children: React.ReactNode;
@@ -92,61 +93,59 @@ export const FileUplode = ({
       <DialogContent>
         <DialogHeader>
           <DialogDescription className="my-5">
-            <form action="" className="w-full h-auto">
-              <div
-                className={cn(
-                  "w-full h-auto min-h-36 p-4 border border-dashed flex flex-col gap-2 items-center justify-center rounded-md cursor-pointer",
-                  dragActive ? "bg-neutral-700/80" : "bg-transparent"
-                )}
-                onClick={openFileExplorer}
-                onDrop={handleDrop}
-                onDragEnter={handleDragEnter}
-                onDragLeave={handleDragLeave}
-                onDragOver={handleDragOver}
+            <div
+              className={cn(
+                "w-full h-auto min-h-36 p-4 border border-dashed flex flex-col gap-2 items-center justify-center rounded-md cursor-pointer",
+                dragActive ? "bg-neutral-700/80" : "bg-transparent"
+              )}
+              onClick={openFileExplorer}
+              onDrop={handleDrop}
+              onDragEnter={handleDragEnter}
+              onDragLeave={handleDragLeave}
+              onDragOver={handleDragOver}
+            >
+              {!isLoading && (
+                <>
+                  <input
+                    type="file"
+                    accept={filetype}
+                    className="hidden"
+                    ref={fileRef}
+                    onChange={handleChange}
+                  />
+                  <SlCloudUpload size={40} className="text-neutral-400" />
+                  <div className="text-neutral-400 ml-2">
+                    CLick to Uplode Or Drag & Drop to Uplode
+                  </div>
+                  {file == null ? (
+                    "No file selected"
+                  ) : (
+                    <span className="text-neutral-400">{file.name}</span>
+                  )}
+                </>
+              )}
+              {isLoading && <Spinner size={"lg"} />}
+            </div>
+            <div className="flex flex-row justify-between items-center w-full gap-x-2 mt-4">
+              <Button
+                variant={"outline"}
+                className="w-full"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setFile(null);
+                }}
               >
-                {!isLoading && (
-                  <>
-                    <input
-                      type="file"
-                      accept={filetype}
-                      className="hidden"
-                      ref={fileRef}
-                      onChange={handleChange}
-                    />
-                    <SlCloudUpload size={40} className="text-neutral-400" />
-                    <div className="text-neutral-400 ml-2">
-                      CLick to Uplode Or Drag & Drop to Uplode
-                    </div>
-                    {file == null ? (
-                      "No file selected"
-                    ) : (
-                      <span className="text-neutral-400">{file.name}</span>
-                    )}
-                  </>
-                )}
-                {isLoading && <p>Loadding...</p>}
-              </div>
-              <div className="flex flex-row justify-between items-center w-full gap-x-2 mt-4">
-                <Button
-                  variant={"outline"}
-                  className="w-full"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setFile(null);
-                  }}
-                >
-                  Cancel
-                </Button>
-                <Button
-                  variant={"default"}
-                  className="w-full"
-                  disabled={file == null}
-                  onClick={handleSubmit}
-                >
-                  {isLoading ? "..." : "Upload"}
-                </Button>
-              </div>
-            </form>
+                Cancel
+              </Button>
+              <Button
+                variant={"default"}
+                className="w-full"
+                disabled={file == null}
+                onClick={handleSubmit}
+              >
+                {isLoading ? <Spinner /> : "Upload"}
+              </Button>
+            </div>
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

@@ -4,8 +4,8 @@ import { Roboto } from "next/font/google";
 
 import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
+import { Toaster } from "@/components/ui/sonner"
 import { EdgeStoreProvider } from "../lib/edgestore";
-import { ToastContainer, Zoom } from "react-toastify";
 import { ThemeProvider } from "@/provider/theme-provider";
 
 const roboto = Roboto({
@@ -43,19 +43,7 @@ export default function RootLayout({
         >
           <ThemeProvider>
             <EdgeStoreProvider>{children}</EdgeStoreProvider>
-            <ToastContainer
-              position="bottom-right"
-              autoClose={5000}
-              hideProgressBar={false}
-              newestOnTop={false}
-              closeOnClick
-              rtl={false}
-              pauseOnFocusLoss
-              draggable
-              pauseOnHover
-              theme="dark"
-              transition={Zoom}
-            />
+            <Toaster />
           </ThemeProvider>
         </ClerkProvider>
       </body>
