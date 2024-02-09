@@ -1,13 +1,11 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 
-import * as z from "zod";
 import axios from "axios";
 import { toast } from "sonner";
-import { Form, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import debounce from "debounce";
 
 import {
   Dialog,
@@ -18,20 +16,12 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Editor } from "../editor";
-import { Button } from "../ui/button";
-import { FormField, FormItem, FormControl, FormMessage } from "../ui/form";
 
 interface UpdateBioProps {
   children: React.ReactNode;
   initialData: string | null;
   userId: string;
 }
-
-const formSchema = z.object({
-  bio: z.string().min(6, {
-    message: "Bio is required",
-  }),
-});
 
 export const UpdateBio = ({
   children,
@@ -40,18 +30,12 @@ export const UpdateBio = ({
 }: UpdateBioProps) => {
   const router = useRouter();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      bio: initialData || "",
-    },
-  });
-
-  const { isSubmitting, isValid } = form.formState;
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const onChange = debounce(async (value: string) => {
     try {
-      await axios.patch(`/api/profile/${userId}`, values);
+      await axios.patch(
+        `/api/profile/${userId}`,
+        JSON.stringify({ bio: value })
+      );
       toast.success("Bio Updated", {
         description: "Bio updated successfully",
         action: {
@@ -70,7 +54,8 @@ export const UpdateBio = ({
         },
       });
     }
-  };
+    console.log(value);
+  }, 2000);
 
   return (
     <Dialog>
@@ -79,34 +64,7 @@ export const UpdateBio = ({
         <DialogHeader>
           <DialogTitle>Update Bio!</DialogTitle>
           <DialogDescription>
-            <div className="w-full h-auto">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-4 mt-4"
-                >
-                  <FormField
-                    control={form.control}
-                    name="bio"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <Editor {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button
-                    disabled={!isValid || isSubmitting}
-                    type="submit"
-                    className="w-full"
-                  >
-                    Save
-                  </Button>
-                </form>
-              </Form>
-            </div>
+            <Editor onChange={(e) => onChange(e)} value={initialData!} />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>

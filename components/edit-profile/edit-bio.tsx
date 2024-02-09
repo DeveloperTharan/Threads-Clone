@@ -14,7 +14,7 @@ export const EditBio = ({ initialData, userId }: EditBioProps) => {
     <div className="w-full h-auto">
       <UpdateBio userId={userId} initialData={initialData} >
         <h1 className="text-neutral-400 font-semibold text-start">Your Bio</h1>
-        <Preview value={initialData || "Not set yet."} />
+        <Preview value={initialData || "Not set yet."} className="border rounded-lg" />
       </UpdateBio>
     </div>
   );

@@ -12,6 +12,8 @@ import { EditBasicInfo } from "../edit-profile/edit-basic-info";
 import { EditProfilePic } from "../edit-profile/edit-pic";
 import { Gender, Follows, User } from "@prisma/client";
 import { EditBio } from "../edit-profile/edit-bio";
+import { EditStatus } from "../edit-profile/edit-status";
+import { EditGender } from "../edit-profile/edit-gender";
 
 interface EditProfileProps {
   initialData: {
@@ -40,10 +42,26 @@ export const EditProfile = ({ children, initialData }: EditProfileProps) => {
                 userId={initialData.userId}
               />
             </div>
-            <EditBasicInfo />
+            <div className="flex flex-row gap-x-12 items-center mb-4">
+              <EditStatus
+                initialData={initialData.emoje}
+                userId={initialData.userId}
+              />
+              <EditGender
+                initialData={initialData.gender?.type}
+                data={initialData.gender as unknown as Gender[]}
+                userId={initialData.userId}
+              />
+            </div>
+            <EditBasicInfo
+              userName={initialData.user_name}
+              officialName={initialData.official_name}
+              userId={initialData.userId}
+            />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
     </Dialog>
   );
 };
+
