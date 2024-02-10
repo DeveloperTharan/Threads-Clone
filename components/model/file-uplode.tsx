@@ -20,12 +20,16 @@ interface FileUplodeProps {
   children: React.ReactNode;
   onSubmit: (values: string) => void;
   filetype: string;
+  onClick: () => void;
+  Open: boolean;
 }
 
 export const FileUplode = ({
   children,
   onSubmit,
   filetype,
+  onClick,
+  Open,
 }: FileUplodeProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -88,7 +92,7 @@ export const FileUplode = ({
   };
 
   return (
-    <Dialog>
+    <Dialog open={Open == true} onOpenChange={onClick}>
       <DialogTrigger className="w-full">{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -133,6 +137,7 @@ export const FileUplode = ({
                 onClick={(e) => {
                   e.preventDefault();
                   setFile(null);
+                  onClick();
                 }}
               >
                 Cancel

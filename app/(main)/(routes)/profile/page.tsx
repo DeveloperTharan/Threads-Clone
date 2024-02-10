@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import React from "react";
 import { UserInfo } from "./_components/user-info";
 import { UserThreads } from "./_components/user-threads";
+import { Spinner } from "@/components/ui/spinner";
 
 export default async function ProfilePage() {
   const { userId } = auth();
@@ -30,7 +31,9 @@ export default async function ProfilePage() {
   return (
     <>
       {!res || res === undefined ? (
-        <p>Loadding...</p>
+        <div className="h-full w-full flex items-center justify-center">
+          <Spinner size={"lg"} />
+        </div>
       ) : (
         <>
           <UserInfo userData={res} gender={gender} />

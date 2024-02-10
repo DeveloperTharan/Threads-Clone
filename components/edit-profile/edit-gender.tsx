@@ -59,7 +59,7 @@ export const EditGender = ({ initialData, data, userId }: GenderProps) => {
         <SelectContent>
           <SelectGroup>
             {data.map((data) => (
-              <SelectItem value={data.id}>{data.type}</SelectItem>
+              <SelectItem value={data.id} key={data.id}>{data.type}</SelectItem>
             ))}
           </SelectGroup>
         </SelectContent>

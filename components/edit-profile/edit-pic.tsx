@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import * as z from "zod";
@@ -24,6 +24,8 @@ export const EditProfilePic = ({
   initialData: string;
   userId: string;
 }) => {
+  const [Open, setOpen] = useState(false);
+
   const router = useRouter();
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
@@ -61,6 +63,8 @@ export const EditProfilePic = ({
       <FileUplode
         filetype=".jpeg, .png, .jpg"
         onSubmit={(url) => onSubmit({ imageURL: url })}
+        onClick={() => setOpen(!Open)}
+        Open={Open}
       >
         <div
           className="absolute bottom-5 right-0 rounded-full opacity-0 group-hover:opacity-100 
