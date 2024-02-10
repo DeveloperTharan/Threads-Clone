@@ -54,7 +54,6 @@ export const UpdateBio = ({
         },
       });
     }
-    console.log(value);
   }, 2000);
 
   return (

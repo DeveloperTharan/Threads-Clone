@@ -15,16 +15,17 @@ interface UserData {
     followers: Follows[];
     following: Follows[];
   } & User;
+  gender: Gender[];
 }
 
-export const UserInfo = ({ userData }: UserData) => {
+export const UserInfo = ({ userData, gender }: UserData) => {
   const { userId } = auth();
   if (!userId) return redirect("/sign-in");
   
   return (
     <div className="w-full h-auto min-h-44 p-5">
       <div className="flex flex-row justify-between items-start">
-        <div className="flex flex-col justify-start items-start">
+        <div className="flex flex-col justify-start items-start w-full max-w-[75%]">
           <h2 className="text-3xl font-bold">{userData.user_name}</h2>
           <div className="flex flex-row items-baseline gap-x-2">
             <h3 className="text-lg font-medium">{userData.official_name}</h3>
@@ -66,7 +67,7 @@ export const UserInfo = ({ userData }: UserData) => {
         {userData.userId !== userId ? (
           <Button className="w-full rounded-lg">Follow</Button>
         ) : (
-          <EditProfile initialData={userData}>
+          <EditProfile initialData={userData} gender={gender}>
             <div
               className="w-full rounded-xl bg-transparent border border-neutral-700 hover:bg-neutral-700/70 p-1"
               role="button"

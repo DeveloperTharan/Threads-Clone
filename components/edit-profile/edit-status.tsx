@@ -29,7 +29,7 @@ export const EditStatus = ({ initialData, userId }: EditStatusProps) => {
           onClick: () => console.log("Undo"),
         },
       });
-      router.refresh();
+      window.location.reload();
     } catch (error) {
       console.log("[PROFILE_ERROR]", error);
       toast.error("Something went wrong", {

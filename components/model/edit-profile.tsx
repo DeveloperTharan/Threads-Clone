@@ -22,9 +22,10 @@ interface EditProfileProps {
     following: Follows[];
   } & User;
   children: React.ReactNode;
+  gender: Gender[];
 }
 
-export const EditProfile = ({ children, initialData }: EditProfileProps) => {
+export const EditProfile = ({ children, initialData, gender }: EditProfileProps) => {
   return (
     <Dialog>
       <DialogTrigger className="w-full">{children}</DialogTrigger>
@@ -49,7 +50,7 @@ export const EditProfile = ({ children, initialData }: EditProfileProps) => {
               />
               <EditGender
                 initialData={initialData.gender?.type}
-                data={initialData.gender as unknown as Gender[]}
+                data={gender}
                 userId={initialData.userId}
               />
             </div>

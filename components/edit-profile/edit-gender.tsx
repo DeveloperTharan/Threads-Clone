@@ -1,6 +1,10 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
+
+import axios from "axios";
+import { toast } from "sonner";
 
 import {
   Select,
@@ -18,12 +22,39 @@ interface GenderProps {
 }
 
 export const EditGender = ({ initialData, data, userId }: GenderProps) => {
+  const router = useRouter();
+
+  const handleGenderChange = async (value: string) => {
+    try {
+      await axios.patch(
+        `/api/profile/${userId}`,
+        JSON.stringify({ genderId: value })
+      );
+      toast.success("Profile Updated", {
+        description: "Profile updated successfully",
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo"),
+        },
+      });
+      router.refresh();
+    } catch (error) {
+      console.log("[PROFILE_ERROR]", error);
+      toast.error("Something went wrong", {
+        description: "Profile updated Error",
+        action: {
+          label: "Undo",
+          onClick: () => console.log("Undo"),
+        },
+      });
+    }
+  };
   return (
     <>
-      <Select>
-        <SelectTrigger className="w-[180px]">
+      <Select onValueChange={handleGenderChange}>
+        <SelectTrigger className="w-fit">
           {!initialData && <SelectValue placeholder="Call as" />}
-          {initialData && <div className="text-gray-400">{initialData}</div>}
+          {initialData && <SelectValue placeholder={initialData} />}
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>

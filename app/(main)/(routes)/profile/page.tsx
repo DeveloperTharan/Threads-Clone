@@ -20,13 +20,20 @@ export default async function ProfilePage() {
       gender: true,
     },
   });
+
+  const gender = await db.gender.findMany({
+    orderBy: {
+      type: "asc",
+    },
+  });
+
   return (
     <>
       {!res || res === undefined ? (
         <p>Loadding...</p>
       ) : (
         <>
-          <UserInfo userData={res} />
+          <UserInfo userData={res} gender={gender} />
           <UserThreads />
         </>
       )}
