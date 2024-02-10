@@ -17,12 +17,14 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@clerk/nextjs";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   const router = useRouter();
   const pathname = usePathname();
+  const { signOut, userId } = useAuth();
 
   const handleScroll = () => {
     if (window.scrollY > 80) {
@@ -37,6 +39,11 @@ export const Header = () => {
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [handleScroll]);
+
+  const handleSignOut = () => {
+    signOut();
+    router.push("/sign-in");
+  };
 
   const menu = [
     {
@@ -104,10 +111,16 @@ export const Header = () => {
             />
           </DropdownMenuTrigger>
           <DropdownMenuContent>
-            <DropdownMenuItem>Settings</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => router.push(`/profile/${userId}/settings`)}
+            >
+              Settings
+            </DropdownMenuItem>
             <DropdownMenuItem>Report</DropdownMenuItem>
             <DropdownMenuItem>
-              <span className="text-red-600">Log Out</span>
+              <span className="text-red-600" onClick={handleSignOut}>
+                Log Out
+              </span>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
