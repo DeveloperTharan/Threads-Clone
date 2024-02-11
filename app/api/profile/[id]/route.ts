@@ -1,18 +1,19 @@
 import { db } from "@/lib/db";
+import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-export async function PATCH(
-  req: Request,
-  params: { params: { userId: string } }
-) {
+export async function PATCH(req: Request, params: { params: { id: string } }) {
   try {
-    const { userId } = params.params;
+    const { userId } = auth();
+    const { id } = params.params;
+
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
     const values = await req.json();
 
     const res = await db.user.update({
       where: {
+        id,
         userId,
       },
       data: {
@@ -27,18 +28,21 @@ export async function PATCH(
   }
 }
 
-export async function DELETE(
-  req: Request,
-  params: { params: { userId: string } }
-) {
+export async function DELETE(req: Request, params: { params: { id: string } }) {
   try {
-    const { userId } = params.params;
+    const { userId } = auth();
+    const { id } = params.params;
+
     if (!userId) return new NextResponse("Unauthorized", { status: 401 });
 
     const res = await db.user.delete({
       where: {
+        id,
         userId,
       },
+      include: {
+        threads: true,
+      }
     });
 
     return NextResponse.json(res, { status: 200 });

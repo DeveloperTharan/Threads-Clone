@@ -10,16 +10,16 @@ import { useRouter } from "next/navigation";
 
 interface EditStatusProps {
   initialData: string | null;
-  userId: string;
+  id: string;
 }
 
-export const EditStatus = ({ initialData, userId }: EditStatusProps) => {
+export const EditStatus = ({ initialData, id }: EditStatusProps) => {
   const router = useRouter();
 
   const handleOnIconSelect = async (icon: string) => {
     try {
       await axios.patch(
-        `/api/profile/${userId}`,
+        `/api/profile/${id}`,
         JSON.stringify({ emoje: icon })
       );
       toast.success("Profile Updated", {

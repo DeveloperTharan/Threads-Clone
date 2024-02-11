@@ -18,13 +18,16 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@clerk/nextjs";
+import { useUser } from "@/context/user-context";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
 
   const router = useRouter();
   const pathname = usePathname();
-  const { signOut, userId } = useAuth();
+  const { signOut } = useAuth();
+  const { User } = useUser();
+  console.log(User);
 
   const handleScroll = () => {
     if (window.scrollY > 80) {
@@ -42,7 +45,7 @@ export const Header = () => {
 
   const handleSignOut = () => {
     signOut();
-    router.push("/sign-in");
+    return router.push("/sign-in");
   };
 
   const menu = [
@@ -69,7 +72,7 @@ export const Header = () => {
   ];
 
   return (
-    <div
+    <nav
       className={cn(
         "w-full h-fit py-1 sticky top-0 bg-transparent px-4 md:px-0 z-50",
         isScrolled && "backdrop-blur-sm bg-black/20"
@@ -112,7 +115,7 @@ export const Header = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={() => router.push(`/profile/${userId}/settings`)}
+              onClick={() => router.push(`/profile/${User?.id}/settings`)}
             >
               Settings
             </DropdownMenuItem>
@@ -125,6 +128,6 @@ export const Header = () => {
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
-    </div>
+    </nav>
   );
 };

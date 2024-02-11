@@ -18,16 +18,16 @@ import {
 interface GenderProps {
   initialData: string | undefined;
   data: { id: string; type: string }[];
-  userId: string;
+  id: string;
 }
 
-export const EditGender = ({ initialData, data, userId }: GenderProps) => {
+export const EditGender = ({ initialData, data, id }: GenderProps) => {
   const router = useRouter();
 
   const handleGenderChange = async (value: string) => {
     try {
       await axios.patch(
-        `/api/profile/${userId}`,
+        `/api/profile/${id}`,
         JSON.stringify({ genderId: value })
       );
       toast.success("Profile Updated", {

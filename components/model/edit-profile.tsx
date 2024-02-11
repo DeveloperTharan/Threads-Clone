@@ -36,28 +36,28 @@ export const EditProfile = ({ children, initialData, gender }: EditProfileProps)
             <div className="flex flex-row items-center gap-x-20 w-full h-auto">
               <EditProfilePic
                 initialData={initialData.imageURL}
-                userId={initialData.userId}
+                id={initialData.id}
               />
               <EditBio
                 initialData={initialData.bio}
-                userId={initialData.userId}
+                id={initialData.id}
               />
             </div>
             <div className="flex flex-row gap-x-12 items-center mb-4">
               <EditStatus
                 initialData={initialData.emoje}
-                userId={initialData.userId}
+                id={initialData.id}
               />
               <EditGender
                 initialData={initialData.gender?.type}
                 data={gender}
-                userId={initialData.userId}
+                id={initialData.id}
               />
             </div>
             <EditBasicInfo
               userName={initialData.user_name}
               officialName={initialData.official_name}
-              userId={initialData.userId}
+              id={initialData.id}
             />
           </DialogDescription>
         </DialogHeader>

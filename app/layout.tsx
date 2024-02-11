@@ -4,9 +4,10 @@ import { Roboto } from "next/font/google";
 
 import { dark } from "@clerk/themes";
 import { ClerkProvider } from "@clerk/nextjs";
-import { Toaster } from "@/components/ui/sonner"
+import { Toaster } from "@/components/ui/sonner";
 import { EdgeStoreProvider } from "../lib/edgestore";
 import { ThemeProvider } from "@/provider/theme-provider";
+import UserContextProvider from "@/context/user-context";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -42,7 +43,9 @@ export default function RootLayout({
           }}
         >
           <ThemeProvider>
-            <EdgeStoreProvider>{children}</EdgeStoreProvider>
+            <EdgeStoreProvider>
+              <UserContextProvider>{children}</UserContextProvider>
+            </EdgeStoreProvider>
             <Toaster />
           </ThemeProvider>
         </ClerkProvider>

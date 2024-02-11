@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 interface UpdateBioProps {
   userName: string;
   officialName: string;
-  userId: string;
+  id: string;
 }
 
 const formSchema = z.object({
@@ -37,7 +37,7 @@ const formSchema = z.object({
 export const EditBasicInfo = ({
   userName,
   officialName,
-  userId,
+  id,
 }: UpdateBioProps) => {
   const router = useRouter();
 
@@ -53,7 +53,7 @@ export const EditBasicInfo = ({
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await axios.patch(`/api/profile/${userId}`, values);
+      await axios.patch(`/api/profile/${id}`, values);
       toast.success("Profile Updated", {
         description: "Profile updated successfully",
         action: {

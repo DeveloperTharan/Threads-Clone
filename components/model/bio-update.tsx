@@ -20,20 +20,20 @@ import { Editor } from "../editor";
 interface UpdateBioProps {
   children: React.ReactNode;
   initialData: string | null;
-  userId: string;
+  id: string;
 }
 
 export const UpdateBio = ({
   children,
   initialData,
-  userId,
+  id,
 }: UpdateBioProps) => {
   const router = useRouter();
 
   const onChange = debounce(async (value: string) => {
     try {
       await axios.patch(
-        `/api/profile/${userId}`,
+        `/api/profile/${id}`,
         JSON.stringify({ bio: value })
       );
       toast.success("Bio Updated", {

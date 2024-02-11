@@ -19,10 +19,10 @@ const formSchema = z.object({
 
 export const EditProfilePic = ({
   initialData,
-  userId,
+  id,
 }: {
   initialData: string;
-  userId: string;
+  id: string;
 }) => {
   const [Open, setOpen] = useState(false);
 
@@ -30,7 +30,7 @@ export const EditProfilePic = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/profile/${userId}`, values);
+      await axios.patch(`/api/profile/${id}`, values);
       toast.success("Profile Updated", {
         description: "Profile Image updated successfully",
         action: {

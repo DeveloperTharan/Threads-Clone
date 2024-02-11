@@ -16,7 +16,7 @@ export default function SettingsPage({
 }) {
   const [Open, setOpen] = useState(false);
 
-  const router = useRouter();
+  const router = useRouter(); 
 
   const onClick = async () => {
     try {
