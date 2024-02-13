@@ -27,7 +27,6 @@ export const Header = () => {
   const pathname = usePathname();
   const { signOut } = useAuth();
   const { User } = useUser();
-  console.log(User);
 
   const handleScroll = () => {
     if (window.scrollY > 80) {
@@ -115,7 +114,7 @@ export const Header = () => {
           </DropdownMenuTrigger>
           <DropdownMenuContent>
             <DropdownMenuItem
-              onClick={() => router.push(`/profile/${User?.id}/settings`)}
+              onClick={() => router.push(`/profile/settings/${User?.id}`)}
             >
               Settings
             </DropdownMenuItem>

@@ -31,7 +31,6 @@ export default function UserContextProvider({
       try {
         const res = await axios.get("/api/profile");
         setUserData(res.data);
-        console.log("User data:", res.data);
       } catch (error) {
         console.error("Error fetching user data:", error);
       }

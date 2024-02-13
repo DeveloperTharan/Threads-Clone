@@ -1,5 +1,5 @@
 import { db } from "@/lib/db";
-import { auth } from "@clerk/nextjs";
+import { auth, clerkClient } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function PATCH(req: Request, params: { params: { id: string } }) {
@@ -31,21 +31,23 @@ export async function PATCH(req: Request, params: { params: { id: string } }) {
 export async function DELETE(req: Request, params: { params: { id: string } }) {
   try {
     const { userId } = auth();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
     const { id } = params.params;
 
-    if (!userId) return new NextResponse("Unauthorized", { status: 401 });
-
-    const res = await db.user.delete({
+    await db.user.delete({
       where: {
         id,
         userId,
       },
-      include: {
-        threads: true,
-      }
     });
 
-    return NextResponse.json(res, { status: 200 });
+    await clerkClient.users.deleteUser(userId);
+
+    return NextResponse.json({ message: "User deleted" });
   } catch (error) {
     console.log("[PROFILE_ERROR]", error);
     return new NextResponse("Internal Error", { status: 500 });

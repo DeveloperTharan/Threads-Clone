@@ -2,12 +2,11 @@
 
 import React, { useState } from "react";
 
-import { Button } from "@/components/ui/button";
 import { DeleteAcc } from "@/components/model/delete-acc";
 import axios from "axios";
 import { NextResponse } from "next/server";
 import { useRouter } from "next/navigation";
-import { clerkClient } from "@clerk/nextjs";
+import { clerkClient, useAuth } from "@clerk/nextjs";
 
 export default function SettingsPage({
   params,
@@ -16,14 +15,18 @@ export default function SettingsPage({
 }) {
   const [Open, setOpen] = useState(false);
 
-  const router = useRouter(); 
+  const router = useRouter();
+  const { userId } = useAuth();
+
+  const { profileId } = params;
+  console.log(profileId);
+
+  if (!userId) return router.push("/sign-in");
 
   const onClick = async () => {
     try {
-      await axios.delete(`/api/profile/${params.profileId}`);
-      await clerkClient.users.deleteUser(params.profileId);
+      await axios.delete(`/api/profile/${profileId}`);
       router.push("/sign-in");
-
       return new NextResponse("success", { status: 200 });
     } catch (error) {
       console.log("[USER_DELETE]", error);
