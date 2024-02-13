@@ -14,18 +14,20 @@ export default function SettingsPage({
   params: { profileId: string };
 }) {
   const [Open, setOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(false); 
 
   const router = useRouter();
   const { userId } = useAuth();
 
   const { profileId } = params;
-  console.log(profileId);
 
   if (!userId) return router.push("/sign-in");
 
   const onClick = async () => {
     try {
+      setIsLoading(true);
       await axios.delete(`/api/profile/${profileId}`);
+      setIsLoading(false);
       router.push("/sign-in");
       return new NextResponse("success", { status: 200 });
     } catch (error) {
@@ -48,6 +50,7 @@ export default function SettingsPage({
           onConfirm={onClick}
           onClick={() => setOpen(!Open)}
           Open={Open}
+          isLoading={isLoading}
         >
           Delete
         </DeleteAcc>

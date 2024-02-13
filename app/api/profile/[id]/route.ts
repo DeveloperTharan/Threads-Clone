@@ -43,6 +43,9 @@ export async function DELETE(req: Request, params: { params: { id: string } }) {
         id,
         userId,
       },
+      include: {
+        threads: true,
+      }
     });
 
     await clerkClient.users.deleteUser(userId);

@@ -9,12 +9,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
+import { Spinner } from "../ui/spinner";
 
 interface EditProfileProps {
   children: React.ReactNode;
   onConfirm: () => void;
   onClick: () => void;
   Open: boolean;
+  isLoading: boolean;
 }
 
 export const DeleteAcc = ({
@@ -22,6 +24,7 @@ export const DeleteAcc = ({
   onConfirm,
   onClick,
   Open,
+  isLoading,
 }: EditProfileProps) => {
   return (
     <Dialog open={Open == true} onOpenChange={onClick}>
@@ -45,8 +48,9 @@ export const DeleteAcc = ({
               variant={"destructive"}
               className="bg-red-600 w-full"
               onClick={onConfirm}
+              disabled={isLoading}
             >
-              Delete Account
+              {isLoading ? <Spinner /> : "Delete Account"}
             </Button>
           </DialogDescription>
         </DialogHeader>
