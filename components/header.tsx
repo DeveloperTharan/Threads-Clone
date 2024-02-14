@@ -6,6 +6,7 @@ import Image from "next/image";
 
 import { cn } from "@/lib/utils";
 
+import { PiHeart } from "react-icons/pi";
 import { FaArrowLeft } from "react-icons/fa6";
 import { GrHomeRounded } from "react-icons/gr";
 import { IoPersonOutline } from "react-icons/io5";
@@ -65,6 +66,11 @@ export const Header = () => {
     },
     {
       id: 4,
+      Icon: PiHeart,
+      href: "/activity",
+    },
+    {
+      id: 5,
       Icon: IoPersonOutline,
       href: "/profile",
     },

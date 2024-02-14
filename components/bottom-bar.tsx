@@ -4,6 +4,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { usePathname, useRouter } from "next/navigation";
 
+import { PiHeart } from "react-icons/pi";
 import { GrHomeRounded } from "react-icons/gr";
 import { IoPersonOutline } from "react-icons/io5";
 import { RiSearchLine, RiShareCircleLine } from "react-icons/ri";
@@ -30,6 +31,11 @@ export const BottomBar = () => {
     },
     {
       id: 4,
+      Icon: PiHeart,
+      href: "/activity",
+    },
+    {
+      id: 5,
       Icon: IoPersonOutline,
       href: "/profile",
     },
