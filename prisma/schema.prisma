@@ -61,11 +61,10 @@ model Follows {
 model Threads {
   id          String  @unique @default(uuid())
   userId      String
-  assert      String
-  description String? @db.Text
-  threadUrl   String  @unique
+  assert      String?
+  description String?
+  threadUrl   String?  @unique
 
-  likes    Likes[]
   commands Commands[]
 
   user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -76,18 +75,6 @@ model Threads {
   updatedAt DateTime @updatedAt
 
   @@index([userId])
-}
-
-model Likes {
-  id String @unique @default(uuid())
-
-  threadId String
-  thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
-
-  createAt DateTime @default(now())
-
-  @@unique([threadId])
-  @@index([threadId])
 }
 
 model Commands {
