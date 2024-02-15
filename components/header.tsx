@@ -20,9 +20,11 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@clerk/nextjs";
 import { useUser } from "@/context/user-context";
+import { CreateThreadModel } from "./model/create-thread";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const [Open, setOpen] = useState<boolean>(false);
 
   const router = useRouter();
   const pathname = usePathname();
@@ -48,38 +50,10 @@ export const Header = () => {
     return router.push("/sign-in");
   };
 
-  const menu = [
-    {
-      id: 1,
-      Icon: GrHomeRounded,
-      href: "/",
-    },
-    {
-      id: 2,
-      Icon: RiSearchLine,
-      href: "/search",
-    },
-    {
-      id: 3,
-      Icon: RiShareCircleLine,
-      href: "/create-thread",
-    },
-    {
-      id: 4,
-      Icon: PiHeart,
-      href: "/activity",
-    },
-    {
-      id: 5,
-      Icon: IoPersonOutline,
-      href: "/profile",
-    },
-  ];
-
   return (
     <nav
       className={cn(
-        "w-full h-fit py-1 sticky top-0 bg-transparent px-4 md:px-0 z-50",
+        "w-full h-fit py- sticky top-0 bg-transparent px-4 md:px-0 z-50",
         isScrolled && "backdrop-blur-sm bg-black/20"
       )}
     >
@@ -95,21 +69,63 @@ export const Header = () => {
             )}
             onClick={() => router.back()}
           />
-          {menu.map((items) => (
-            <div
-              className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
-              key={items.id}
-              onClick={() => router.push(`${items.href}`)}
-            >
-              <items.Icon
-                size={24}
-                className={cn(
-                  "text-neutral-500",
-                  items.href == pathname && "text-neutral-100"
-                )}
-              />
+          <div
+            className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+            onClick={() => router.push("/")}
+          >
+            <GrHomeRounded
+              size={24}
+              className={cn(
+                "text-neutral-500",
+                pathname === "/" && "text-neutral-100"
+              )}
+            />
+          </div>
+          <div
+            className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+            onClick={() => router.push("/search")}
+          >
+            <RiSearchLine
+              size={24}
+              className={cn(
+                "text-neutral-500",
+                pathname === "/search" && "text-neutral-100"
+              )}
+            />
+          </div>
+          <CreateThreadModel
+            Open={Open}
+            setOpen={setOpen}
+            onClick={() => setOpen(!Open)}
+          >
+            <div className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer">
+              <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
             </div>
-          ))}
+          </CreateThreadModel>
+          <div
+            className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+            onClick={() => router.push("/ativity")}
+          >
+            <PiHeart
+              size={24}
+              className={cn(
+                "text-neutral-500",
+                pathname === "/ativity" && "text-neutral-100"
+              )}
+            />
+          </div>
+          <div
+            className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+            onClick={() => router.push("/profile")}
+          >
+            <IoPersonOutline
+              size={24}
+              className={cn(
+                "text-neutral-500",
+                pathname === "/profile" && "text-neutral-100"
+              )}
+            />
+          </div>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger>

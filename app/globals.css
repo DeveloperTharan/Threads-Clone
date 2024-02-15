@@ -88,3 +88,7 @@ body,
 .cl-internal-uy11u8{
   @apply bg-transparent transition-none shadow-none;
 }
+
+.quill > .ql-container > .ql-editor.ql-blank::before{
+  @apply text-neutral-400;
+}

@@ -74,7 +74,7 @@ export const EditBasicInfo = ({
     }
   }
   return (
-    <div>
+    <>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
@@ -113,6 +113,6 @@ export const EditBasicInfo = ({
           </Button>
         </form>
       </Form>
-    </div>
+    </>
   );
 };

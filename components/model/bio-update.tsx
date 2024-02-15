@@ -23,19 +23,12 @@ interface UpdateBioProps {
   id: string;
 }
 
-export const UpdateBio = ({
-  children,
-  initialData,
-  id,
-}: UpdateBioProps) => {
+export const UpdateBio = ({ children, initialData, id }: UpdateBioProps) => {
   const router = useRouter();
 
   const onChange = debounce(async (value: string) => {
     try {
-      await axios.patch(
-        `/api/profile/${id}`,
-        JSON.stringify({ bio: value })
-      );
+      await axios.patch(`/api/profile/${id}`, JSON.stringify({ bio: value }));
       toast.success("Bio Updated", {
         description: "Bio updated successfully",
         action: {
@@ -63,7 +56,11 @@ export const UpdateBio = ({
         <DialogHeader>
           <DialogTitle>Update Bio!</DialogTitle>
           <DialogDescription>
-            <Editor onChange={(e) => onChange(e)} value={initialData!} />
+            <Editor
+              theme="snow"
+              onChange={(e) => onChange(e)}
+              value={initialData!}
+            />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
