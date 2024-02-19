@@ -65,11 +65,10 @@ model Threads {
   description String?
   threadUrl   String?  @unique
 
+  user User @relation(fields: [userId], references: [id])
+  
   commands Commands[]
-
-  user User? @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  like_count BigInt @default(0)
+  like_count Int @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
