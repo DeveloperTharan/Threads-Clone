@@ -65,6 +65,7 @@ export const EditProfilePic = ({
         onSubmit={(url) => onSubmit({ imageURL: url })}
         onClick={() => setOpen(!Open)}
         Open={Open}
+        setOpen={setOpen}
       >
         <div
           className="absolute bottom-5 right-0 rounded-full opacity-0 group-hover:opacity-100 

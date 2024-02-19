@@ -22,6 +22,7 @@ interface FileUplodeProps {
   filetype: string;
   onClick: () => void;
   Open: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const FileUplode = ({
@@ -30,6 +31,7 @@ export const FileUplode = ({
   filetype,
   onClick,
   Open,
+  setOpen,
 }: FileUplodeProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -52,6 +54,7 @@ export const FileUplode = ({
       onSubmit(res.url);
       setIsLoading(false);
       setFile(null);
+      setOpen(false);
     }
   };
 

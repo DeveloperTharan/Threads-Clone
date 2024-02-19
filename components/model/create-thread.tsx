@@ -1,6 +1,4 @@
-'use client'
-
-import React, { useState } from "react";
+import React from "react";
 
 import {
   Dialog,
@@ -22,21 +20,15 @@ export const CreateThreadModel = ({
   children,
   onClick,
   Open,
-  setOpen,
+  setOpen
 }: CreateThreadModelProps) => {
-  const handleKeyDown = (e: any) => {
-    e.stopPropagation();
-    /* alert("close");
-    setOpen(false); */
-  };
-
   return (
     <Dialog open={Open == true} onOpenChange={onClick}>
       <DialogTrigger>{children}</DialogTrigger>
-      <DialogContent onBlur={handleKeyDown}>
+      <DialogContent>
         <DialogHeader>
           <DialogDescription className="flex flex-col gap-2 w-full">
-            <CreateThread />
+            <CreateThread setClose={setOpen} />
           </DialogDescription>
         </DialogHeader>
       </DialogContent>
