@@ -104,7 +104,7 @@ export const Header = () => {
           </CreateThreadModel>
           <div
             className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
-            onClick={() => router.push("/ativity")}
+            onClick={() => router.push("/activity")}
           >
             <PiHeart
               size={24}

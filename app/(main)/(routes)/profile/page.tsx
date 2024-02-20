@@ -1,10 +1,12 @@
+import React from "react";
+import { redirect } from "next/navigation";
+
 import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
-import { redirect } from "next/navigation";
-import React from "react";
+
+import { Spinner } from "@/components/ui/spinner";
 import { UserInfo } from "./_components/user-info";
 import { UserThreads } from "./_components/user-threads";
-import { Spinner } from "@/components/ui/spinner";
 
 export default async function ProfilePage() {
   const { userId } = auth();
@@ -19,6 +21,7 @@ export default async function ProfilePage() {
       followers: true,
       following: true,
       gender: true,
+      threads: true,
     },
   });
 
@@ -37,7 +40,7 @@ export default async function ProfilePage() {
       ) : (
         <>
           <UserInfo userData={res} gender={gender} />
-          <UserThreads />
+          <UserThreads userData={res} />
         </>
       )}
     </>
