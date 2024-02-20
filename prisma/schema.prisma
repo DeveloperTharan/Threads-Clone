@@ -25,6 +25,8 @@ model User {
   gender   Gender? @relation(fields: [genderId], references: [id])
 
   threads Threads[]
+  threadsLiked Likes[]
+  threadsCommanded Commands[]
 
   followers Follows[] @relation("following")
   following Follows[] @relation("follower")
@@ -53,9 +55,8 @@ model Follows {
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@id([followerId, followingId])
-  @@index([followerId])
-  @@index([followingId])
+  @@unique([followerId, followingId])
+  @@index([followerId, followingId])
 }
 
 model Threads {
@@ -65,8 +66,9 @@ model Threads {
   description String?
   threadUrl   String?  @unique
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
   
+  likes Likes[]
   commands Commands[]
   like_count Int @default(0)
 
@@ -76,6 +78,21 @@ model Threads {
   @@index([userId])
 }
 
+model Likes {
+  id String @unique @default(uuid())
+
+  threadId String
+  thread Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  createAt DateTime @default(now())
+
+  @@unique([threadId, userId])
+  @@index([threadId])
+}
+
 model Commands {
   id      String @unique @default(uuid())
   command String @db.Text
@@ -83,9 +100,12 @@ model Commands {
   threadId String
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([threadId])
+  @@unique([threadId, userId])
   @@index([threadId])
 }
