@@ -45,8 +45,8 @@ export const BottomBar = () => {
         </div>
         <CreateThreadModel
           Open={Open}
+          setOpen={setOpen}
           onClick={() => setOpen(!Open)}
-          isLoading={false}
         >
           <div className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer">
             <RiShareCircleLine size={24} className={cn("text-neutral-500")} />

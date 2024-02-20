@@ -31,19 +31,24 @@ export const Header = () => {
   const { signOut } = useAuth();
   const { User } = useUser();
 
-  const handleScroll = () => {
-    if (window.scrollY > 80) {
-      setIsScrolled(true);
-    } else {
-      setIsScrolled(false);
-    }
-  };
-
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 80) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    });
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [handleScroll]);
+    return () =>
+      window.removeEventListener("scroll", () => {
+        if (window.scrollY > 80) {
+          setIsScrolled(true);
+        } else {
+          setIsScrolled(false);
+        }
+      });
+  }, []);
 
   const handleSignOut = () => {
     signOut();
@@ -69,7 +74,7 @@ export const Header = () => {
             )}
             onClick={() => router.back()}
           />
-          <div
+          <button
             className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
             onClick={() => router.push("/")}
           >
@@ -80,8 +85,8 @@ export const Header = () => {
                 pathname === "/" && "text-neutral-100"
               )}
             />
-          </div>
-          <div
+          </button>
+          <button
             className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
             onClick={() => router.push("/search")}
           >
@@ -92,7 +97,7 @@ export const Header = () => {
                 pathname === "/search" && "text-neutral-100"
               )}
             />
-          </div>
+          </button>
           <CreateThreadModel
             Open={Open}
             setOpen={setOpen}
@@ -102,7 +107,7 @@ export const Header = () => {
               <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
             </div>
           </CreateThreadModel>
-          <div
+          <button
             className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
             onClick={() => router.push("/activity")}
           >
@@ -113,8 +118,8 @@ export const Header = () => {
                 pathname === "/ativity" && "text-neutral-100"
               )}
             />
-          </div>
-          <div
+          </button>
+          <button
             className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
             onClick={() => router.push("/profile")}
           >
@@ -125,7 +130,7 @@ export const Header = () => {
                 pathname === "/profile" && "text-neutral-100"
               )}
             />
-          </div>
+          </button>
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger>
