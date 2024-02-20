@@ -1,17 +1,15 @@
 import React from "react";
 import Image from "next/image";
 
+import { cn } from "@/lib/utils";
 import { Gender, Follows, User, Threads } from "@prisma/client";
 
 import { Preview } from "@/components/preview";
+import { TopActionBtn } from "./top-action-btn";
+/* import ReactTime from "@/components/react-time-ago"; */
 
-import { CiHeart } from "react-icons/ci";
-import { IoIosHeart } from "react-icons/io";
 import { BsThreeDots } from "react-icons/bs";
-import { CiLocationArrow1 } from "react-icons/ci";
-import { PiArrowsClockwise } from "react-icons/pi";
-import { IoChatbubblesOutline } from "react-icons/io5";
-import { cn } from "@/lib/utils";
+import { BottomActionBtn } from "./bottom-action-btn";
 
 interface UserThreadsProps {
   userData: {
@@ -22,7 +20,7 @@ interface UserThreadsProps {
   } & User;
 }
 
-export const UserThreads = async ({ userData }: UserThreadsProps) => {
+export const UserThreads = ({ userData }: UserThreadsProps) => {
   return (
     <div
       className={cn(
@@ -53,10 +51,17 @@ export const UserThreads = async ({ userData }: UserThreadsProps) => {
                   />
                   <span className="text-lg">{userData.user_name}</span>
                 </div>
-                <BsThreeDots
-                  size={25}
-                  className="p-1 rounded-full hover:bg-neutral-700/50"
-                />
+                <div className="flex flex-row items-center justify-end gap-x-4 w-full">
+                  {/* <ReactTime data={data.createdAt} /> */}
+                  {data.userId === userData.id ? (
+                    <TopActionBtn threadId={data.id}>
+                      <BsThreeDots
+                        size={25}
+                        className="p-1 rounded-full hover:bg-neutral-700/30"
+                      />
+                    </TopActionBtn>
+                  ) : null}
+                </div>
               </div>
               <div className="w-[75%] flex flex-col justify-start items-start mx-auto">
                 {data.description!.length > 0 ? (
@@ -72,24 +77,7 @@ export const UserThreads = async ({ userData }: UserThreadsProps) => {
                     className="cursor-pointer rounded-lg"
                   />
                 ) : null}
-                <div className="w-fit flex flex-row justify-start gap-3 mt-5">
-                  <CiHeart
-                    size={30}
-                    className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-neutral-400"
-                  />
-                  <IoChatbubblesOutline
-                    size={30}
-                    className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-neutral-400"
-                  />
-                  <PiArrowsClockwise
-                    size={30}
-                    className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-neutral-400"
-                  />
-                  <CiLocationArrow1
-                    size={30}
-                    className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-neutral-400"
-                  />
-                </div>
+                <BottomActionBtn key={index} />
               </div>
             </div>
           ))}
