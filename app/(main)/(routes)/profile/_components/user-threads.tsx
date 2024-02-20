@@ -11,6 +11,7 @@ import { BsThreeDots } from "react-icons/bs";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { PiArrowsClockwise } from "react-icons/pi";
 import { IoChatbubblesOutline } from "react-icons/io5";
+import { cn } from "@/lib/utils";
 
 interface UserThreadsProps {
   userData: {
@@ -23,7 +24,12 @@ interface UserThreadsProps {
 
 export const UserThreads = async ({ userData }: UserThreadsProps) => {
   return (
-    <div className="w-full h-auto flex flex-col justify-start items-start gap-4">
+    <div
+      className={cn(
+        "w-full h-auto flex flex-col justify-start items-start gap-4",
+        userData.threads.length > 0 && "pb-28 md:pb-10"
+      )}
+    >
       {userData.threads.length == 0 || undefined ? (
         <p className="flex justify-center items-center w-full h-full text-neutral-500">
           No Threads
