@@ -18,14 +18,16 @@ export async function POST(req: Request) {
         ? window.location.origin
         : "";
 
-    const threadUrl: string = `${origin}/preview/${Math.round(Math.random() * 100000)}`;
+    const threadUrl: string = `${origin}/preview/${Math.round(
+      Math.random() * 100000
+    )}`;
 
     if (!userId) return new NextResponse("Unauthorized", { status: 400 });
-    
 
     const res = await db.threads.create({
       data: {
         userId: id,
+        authuserId: userId,
         description,
         assert,
         threadUrl,

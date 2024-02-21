@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 
 import axios from "axios";
@@ -12,14 +12,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAuth } from "@clerk/nextjs";
 
 interface TopActionBtnProps {
   children: React.ReactNode;
   threadId: string;
+  autherId: string;
 }
 
-export const TopActionBtn = ({ children, threadId }: TopActionBtnProps) => {
+export const TopActionBtn = ({ children, threadId, autherId }: TopActionBtnProps) => {
   const router = useRouter();
+  const { userId } = useAuth();
 
   const onClick = async () => {
     try {
@@ -45,7 +48,18 @@ export const TopActionBtn = ({ children, threadId }: TopActionBtnProps) => {
   };
 
   return (
-    <DropdownMenu dir="ltr">
+    <>
+    {autherId !== userId ? (
+      <DropdownMenu dir="ltr">
+      <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
+      <DropdownMenuContent align="start">
+        <DropdownMenuItem>Report</DropdownMenuItem>
+        <DropdownMenuItem>block</DropdownMenuItem>
+        <DropdownMenuItem>Hide</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+    ) : (
+      <DropdownMenu dir="ltr">
       <DropdownMenuTrigger>{children}</DropdownMenuTrigger>
       <DropdownMenuContent align="start">
         <DropdownMenuItem>Pin to Profile</DropdownMenuItem>
@@ -60,5 +74,7 @@ export const TopActionBtn = ({ children, threadId }: TopActionBtnProps) => {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
+    )}
+    </>
   );
 };
