@@ -24,8 +24,8 @@ model User {
   genderId String?
   gender   Gender? @relation(fields: [genderId], references: [id])
 
-  threads Threads[]
-  threadsLiked Likes[]
+  threads          Threads[]
+  threadsLiked     Likes[]
   threadsCommanded Commands[]
 
   followers Follows[] @relation("following")
@@ -62,15 +62,16 @@ model Follows {
 model Threads {
   id          String  @unique @default(uuid())
   userId      String
+  authuserId  String
   assert      String?
   description String?
-  threadUrl   String?  @unique
+  threadUrl   String? @unique
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
-  likes Likes[]
-  commands Commands[]
-  like_count Int @default(0)
+
+  likes      Likes[]
+  commands   Commands[]
+  like_count Int        @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -82,10 +83,10 @@ model Likes {
   id String @unique @default(uuid())
 
   threadId String
-  thread Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
   userId String
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   createAt DateTime @default(now())
 
@@ -101,7 +102,7 @@ model Commands {
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
   userId String
-  user User @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
 
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
