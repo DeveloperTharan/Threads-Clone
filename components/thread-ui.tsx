@@ -6,6 +6,7 @@ import { TopActionBtn } from "./top-action-btn";
 import { BottomActionBtn } from "./bottom-action-btn";
 
 import { BsThreeDots } from "react-icons/bs";
+import { Likes } from "@prisma/client";
 
 interface ThreadUiProps {
   userImage: string;
@@ -14,6 +15,8 @@ interface ThreadUiProps {
   description: string;
   assert: string;
   autherId: string;
+  likeCount: number;
+  likes: Likes[];
 }
 
 export const ThreadUi = ({
@@ -23,6 +26,8 @@ export const ThreadUi = ({
   description,
   assert,
   autherId,
+  likeCount,
+  likes,
 }: ThreadUiProps) => {
   return (
     <>
@@ -48,21 +53,27 @@ export const ThreadUi = ({
           </TopActionBtn>
         </div>
       </div>
-      <div className="w-[75%] flex flex-col justify-start items-start mx-auto">
-        {description!.length > 0 ? (
-          <Preview value={description || ""} className="-mt-5" />
-        ) : null}
-        {assert !== "" ? (
-          <Image
-            src={assert || ""}
-            alt={assert}
-            title={assert}
-            width={300}
-            height={300}
-            className="cursor-pointer rounded-lg"
-          />
-        ) : null}
-        <BottomActionBtn threadId={id} />
+      <div className="w-full h-full flex flex-row gap-x-4 justify-start items-start mx-auto">
+        <div className="h-full w-[2px] bg-neutral-700 mx-[17px] my-2" />
+        <div className="flex flex-col justify-start items-start ml-2">
+          {description!.length > 0 ? (
+            <Preview value={description || ""} className="-mt-5" />
+          ) : null}
+          {assert !== "" ? (
+            <Image
+              src={assert || ""}
+              alt={assert}
+              title={assert}
+              width={300}
+              height={300}
+              className="cursor-pointer rounded-lg"
+            />
+          ) : null}
+          <BottomActionBtn threadId={id} likes={likes} />
+          {likeCount > 0 && (
+            <p className="text-sm text-neutral-700">{likeCount} Likes</p>
+          )}
+        </div>
       </div>
     </>
   );

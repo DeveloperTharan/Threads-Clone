@@ -8,7 +8,7 @@ export async function DELETE(req: Request, params: { params: { id: string } }) {
     const { id } = params.params;
 
     if (!userId) return new NextResponse("Unauthorized", { status: 400 });
-    if (!id) return new NextResponse("THREAD_ID_MISSING", { status: 401 });
+    if (!id) return new NextResponse("THREAD_ID_MISSING", { status: 400 });
 
     const res = await db.threads.delete({
       where: {

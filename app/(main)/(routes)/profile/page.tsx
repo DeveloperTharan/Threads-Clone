@@ -21,7 +21,12 @@ export default async function ProfilePage() {
       followers: true,
       following: true,
       gender: true,
-      threads: true,
+      threads: {
+        include: {
+          likes: true,
+          commands: true,
+        }
+      },
     },
   });
 
