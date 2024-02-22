@@ -110,7 +110,7 @@ export const CreateThread = ({
         />
         <div className="ml-4">
           <FileUplode
-            filetype=".jpeg, .png, .jpg, .gif"
+            filetype=".jpeg, .png, .jpg, .gif, .webp, .svg"
             onSubmit={(url) => setValues((pre) => ({ ...pre, assert: url }))}
             onClick={() => setOpen(!Open)}
             Open={Open}
