@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Preview } from "../preview";
+import { Preview } from "../utils/preview";
 import { UpdateBio } from "../model/bio-update";
 
 interface EditBioProps {

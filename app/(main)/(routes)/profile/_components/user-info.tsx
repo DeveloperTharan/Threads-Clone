@@ -7,7 +7,7 @@ import { Gender, Follows, User } from "@prisma/client";
 
 import { Button } from "@/components/ui/button";
 import { EditProfile } from "@/components/model/edit-profile";
-import { Preview } from "@/components/preview";
+import { Preview } from "@/components/utils/preview";
 
 interface UserData {
   userData: {

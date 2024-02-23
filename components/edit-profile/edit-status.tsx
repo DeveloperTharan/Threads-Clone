@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 import { CiFaceSmile } from "react-icons/ci";
-import { IconPicker } from "../Icon-picker";
+import { IconPicker } from "../utils/Icon-picker";
 import axios from "axios";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";

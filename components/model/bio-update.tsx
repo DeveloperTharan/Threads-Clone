@@ -15,7 +15,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Editor } from "../editor";
+import { Editor } from "../utils/editor";
 
 interface UpdateBioProps {
   children: React.ReactNode;

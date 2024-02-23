@@ -1,12 +1,13 @@
 import React from "react";
 import Image from "next/image";
 
-import { Preview } from "./preview";
-import { TopActionBtn } from "./top-action-btn";
-import { BottomActionBtn } from "./bottom-action-btn";
+import { Preview } from "./utils/preview";
+import { TopActionBtn } from "./actions/top-action-btn";
+import { BottomActionBtn } from "./actions/bottom-action-btn";
 
 import { BsThreeDots } from "react-icons/bs";
 import { Likes } from "@prisma/client";
+import { timeSince } from "@/lib/time-since";
 
 interface ThreadUiProps {
   userImage: string;
@@ -17,6 +18,7 @@ interface ThreadUiProps {
   autherId: string;
   likeCount: number;
   likes: Likes[];
+  date: Date;
 }
 
 export const ThreadUi = ({
@@ -28,6 +30,7 @@ export const ThreadUi = ({
   autherId,
   likeCount,
   likes,
+  date,
 }: ThreadUiProps) => {
   return (
     <>
@@ -44,7 +47,7 @@ export const ThreadUi = ({
           <span className="text-lg">{userName}</span>
         </div>
         <div className="flex flex-row items-center justify-end gap-x-4 w-full">
-          {/* <ReactTime data={createdAt} /> */}
+          <p className="text-sm text-neutral-600">{timeSince(date)}</p>
           <TopActionBtn threadId={id} autherId={autherId}>
             <BsThreeDots
               size={25}

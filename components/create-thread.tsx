@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { SetStateAction, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
-import { Editor } from "./editor";
+import { Editor } from "./utils/editor";
 import { Button } from "./ui/button";
 import { FileUplode } from "./model/file-uplode";
 import { useUser } from "@/context/user-context";

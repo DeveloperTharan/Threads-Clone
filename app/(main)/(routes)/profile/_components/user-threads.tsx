@@ -49,6 +49,7 @@ export const UserThreads = ({ userData }: UserThreadsProps) => {
                 autherId={data.authuserId}
                 likeCount={data.like_count}
                 likes={data.likes}
+                date={data.createdAt}
               />
             </div>
           ))}
