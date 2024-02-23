@@ -29,7 +29,7 @@ export const EditStatus = ({ initialData, id }: EditStatusProps) => {
           onClick: () => console.log("Undo"),
         },
       });
-      window.location.reload();
+      router.refresh();
     } catch (error) {
       console.log("[PROFILE_ERROR]", error);
       toast.error("Something went wrong", {
@@ -46,7 +46,7 @@ export const EditStatus = ({ initialData, id }: EditStatusProps) => {
     <div className="w-fit h-auto cursor-pointer">
       {!!initialData && (
         <IconPicker onChange={handleOnIconSelect}>
-          <div className="h-5 w-5">{initialData}</div>
+          <div className="text-3xl">{initialData}</div>
         </IconPicker>
       )}
       {!initialData && (
