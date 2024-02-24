@@ -53,16 +53,16 @@ export const UpdateBio = ({ children, initialData, id }: UpdateBioProps) => {
     <Dialog>
       <DialogTrigger className="w-full">{children}</DialogTrigger>
       <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Update Bio!</DialogTitle>
-          <DialogDescription>
-            <Editor
-              theme="snow"
-              onChange={(e) => onChange(e)}
-              value={initialData!}
-            />
-          </DialogDescription>
-        </DialogHeader>
+        <h1 className="text-xl text-neutral-400 font-semibold absolute -top-14 left-1/2 -translate-x-1/2">
+          Update your Bio...
+        </h1>
+        <DialogDescription className="mt-5">
+          <Editor
+            theme="snow"
+            onChange={(e) => onChange(e)}
+            value={initialData!}
+          />
+        </DialogDescription>
       </DialogContent>
     </Dialog>
   );

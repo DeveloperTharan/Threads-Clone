@@ -98,6 +98,9 @@ export const FileUplode = ({
     <Dialog open={Open == true} onOpenChange={onClick}>
       <DialogTrigger className="w-full">{children}</DialogTrigger>
       <DialogContent>
+        <h1 className="text-xl text-neutral-400 font-semibold absolute -top-14 left-1/2 -translate-x-1/2">
+          Uplode your File...
+        </h1>
         <DialogHeader>
           <DialogDescription className="my-5">
             <div
