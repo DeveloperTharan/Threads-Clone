@@ -6,8 +6,8 @@ import { TopActionBtn } from "./actions/top-action-btn";
 import { BottomActionBtn } from "./actions/bottom-action-btn";
 
 import { BsThreeDots } from "react-icons/bs";
-import { Likes } from "@prisma/client";
 import { timeSince } from "@/lib/time-since";
+import { Commands, Likes, User } from "@prisma/client";
 
 interface ThreadUiProps {
   userImage: string;
@@ -19,6 +19,9 @@ interface ThreadUiProps {
   likeCount: number;
   likes: Likes[];
   date: Date;
+  commands: (Commands & {
+    user: User;
+  })[];
 }
 
 export const ThreadUi = ({
@@ -31,6 +34,7 @@ export const ThreadUi = ({
   likeCount,
   likes,
   date,
+  commands,
 }: ThreadUiProps) => {
   return (
     <>
@@ -72,7 +76,7 @@ export const ThreadUi = ({
               className="cursor-pointer rounded-lg"
             />
           ) : null}
-          <BottomActionBtn threadId={id} likes={likes} />
+          <BottomActionBtn threadId={id} likes={likes} commands={commands} />
           {likeCount > 0 && (
             <p className="text-sm text-neutral-700">{likeCount} Likes</p>
           )}

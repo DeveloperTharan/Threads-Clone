@@ -1,14 +1,7 @@
 import React from "react";
 
 import { cn } from "@/lib/utils";
-import {
-  Gender,
-  Follows,
-  User,
-  Threads,
-  Commands,
-  Likes,
-} from "@prisma/client";
+import { Gender, User, Threads, Commands, Likes } from "@prisma/client";
 
 import { ThreadUi } from "@/components/thread-ui";
 
@@ -17,7 +10,9 @@ interface UserThreadsProps {
     gender: Gender | null;
     threads: (Threads & {
       likes: Likes[];
-      commands: Commands[];
+      commands: (Commands & {
+        user: User;
+      })[];
     })[];
   } & User;
 }
@@ -50,6 +45,7 @@ export const UserThreads = ({ userData }: UserThreadsProps) => {
                 likeCount={data.like_count}
                 likes={data.likes}
                 date={data.createdAt}
+                commands={data.commands}
               />
             </div>
           ))}

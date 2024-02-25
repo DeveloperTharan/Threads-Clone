@@ -95,8 +95,9 @@ model Likes {
 }
 
 model Commands {
-  id      String @unique @default(uuid())
-  command String @db.Text
+  id       String  @unique @default(uuid())
+  parentId String?
+  command  String  @db.Text
 
   threadId String
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
@@ -107,6 +108,5 @@ model Commands {
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@unique([threadId, userId])
   @@index([threadId])
 }

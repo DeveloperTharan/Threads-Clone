@@ -4,8 +4,9 @@ import React from "react";
 import { useRouter } from "next/navigation";
 
 import axios from "axios";
-import { Likes } from "@prisma/client";
+import { Command } from "../model/command";
 import { useUser } from "@/context/user-context";
+import { Commands, Likes, User } from "@prisma/client";
 
 import { GoHeart } from "react-icons/go";
 import { CiLocationArrow1 } from "react-icons/ci";
@@ -15,11 +16,15 @@ import { IoChatbubblesOutline, IoHeartSharp } from "react-icons/io5";
 interface BottomActionBtnProps {
   threadId: string;
   likes: Likes[];
+  commands: (Commands & {
+    user: User;
+  })[];
 }
 
 export const BottomActionBtn = ({
   threadId,
   likes,
+  commands,
 }: BottomActionBtnProps) => {
   const router = useRouter();
   const { User } = useUser();
@@ -38,27 +43,34 @@ export const BottomActionBtn = ({
       {likes.some((data) => data.userId === User?.id) ? (
         <IoHeartSharp
           size={30}
-          className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-rose-600"
+          className="p-1 rounded-full hover:bg-neutral-700/50 text-rose-600"
           onClick={onClick}
+          role="button"
         />
       ) : (
         <GoHeart
           size={30}
-          className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-neutral-500"
+          className="p-1 rounded-full hover:bg-neutral-700/50 text-neutral-500"
           onClick={onClick}
+          role="button"
         />
       )}
-      <IoChatbubblesOutline
-        size={30}
-        className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-neutral-500"
-      />
+      <Command threadId={threadId} commands={commands}>
+        <IoChatbubblesOutline
+          size={30}
+          className="p-1 rounded-full hover:bg-neutral-700/50 text-neutral-500"
+          role="button"
+        />
+      </Command>
       <PiArrowsClockwise
         size={30}
-        className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-neutral-500"
+        className="p-1 rounded-full hover:bg-neutral-700/50 text-neutral-500"
+        role="button"
       />
       <CiLocationArrow1
         size={30}
-        className="p-1 rounded-full hover:bg-neutral-700/50 cursor-pointer text-neutral-500"
+        className="p-1 rounded-full hover:bg-neutral-700/50 text-neutral-500"
+        role="button"
       />
     </div>
   );
