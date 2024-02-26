@@ -2,9 +2,9 @@ import { db } from "@/lib/db";
 import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
-interface values {
+interface Values {
   body: string;
-  parentId: string;
+  parentId?: string; // Made optional to allow for root commands
   userid: string;
 }
 
@@ -12,30 +12,21 @@ export async function POST(req: Request, params: { params: { id: string } }) {
   try {
     const { userId } = auth();
     const { id } = params.params;
-    const { body, parentId, userid }: values = await req.json();
+    const { body, parentId, userid }: Values = await req.json();
 
     if (!userId) return new NextResponse("Unauthorized", { status: 400 });
     if (!id) return new NextResponse("THREAD_ID_MISSING", { status: 400 });
 
-    if (parentId === undefined) {
-      const res = await db.commands.create({
-        data: {
-          threadId: id,
-          userId: userid,
-          body,
-        },
-      });
-
-      return NextResponse.json(res, { status: 200 });
-    }
+    // Adjusted to handle both root and nested commands
+    const commandData = {
+      threadId: id,
+      userId: userid,
+      body,
+      ...(parentId && { parentId }), // Conditionally include parentId if it's provided
+    };
 
     const res = await db.commands.create({
-      data: {
-        parentId,
-        threadId: id,
-        userId: userid,
-        body,
-      },
+      data: commandData,
     });
 
     return NextResponse.json(res, { status: 200 });

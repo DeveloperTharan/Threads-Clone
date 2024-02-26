@@ -14,6 +14,7 @@ import { CommandsList } from "../command/commands-list";
 import { CommandInput } from "../command/command-input";
 import { PiChatsCircleDuotone } from "react-icons/pi";
 import { Spinner } from "../ui/spinner";
+import { StructureData } from "@/lib/structure-data";
 
 interface CommandProps {
   children?: React.ReactNode;
@@ -26,9 +27,11 @@ interface CommandProps {
 export const Command = ({ children, threadId, commands }: CommandProps) => {
   const [parentId, setParentId] = useState<string | undefined>(undefined);
 
+  const OrganizedCommands = StructureData(commands || []);
+
   const handleParentId = (id: string) => {
     setParentId(id);
-  };console.log(commands)
+  };
 
   return (
     <Drawer>
@@ -52,7 +55,9 @@ export const Command = ({ children, threadId, commands }: CommandProps) => {
             </div>
           )}
 
-          <div className="flex flex-col h-full w-full gap-8 mb-64"></div>
+          <div className="flex flex-col h-full w-full gap-8 mb-64">
+            <CommandsList commands={OrganizedCommands} getParentId={handleParentId} />
+          </div>
 
           <CommandInput
             threadId={threadId!}
