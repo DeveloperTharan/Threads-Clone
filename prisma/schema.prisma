@@ -95,11 +95,13 @@ model Likes {
 }
 
 model Commands {
-  id       String  @unique @default(uuid())
-  command  String  @db.Text
+  id   String @unique @default(uuid())
+  body String @db.Text
 
   parentId String?
-  
+  parent   Commands?  @relation("CommandTree", fields: [parentId], references: [id])
+  children Commands[] @relation("CommandTree")
+
   threadId String
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
