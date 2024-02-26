@@ -3,7 +3,7 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 interface values {
-  command: string;
+  body: string;
   parentId: string;
   userid: string;
 }
@@ -12,7 +12,7 @@ export async function POST(req: Request, params: { params: { id: string } }) {
   try {
     const { userId } = auth();
     const { id } = params.params;
-    const { command, parentId, userid }: values = await req.json();
+    const { body, parentId, userid }: values = await req.json();
 
     if (!userId) return new NextResponse("Unauthorized", { status: 400 });
     if (!id) return new NextResponse("THREAD_ID_MISSING", { status: 400 });
@@ -22,7 +22,7 @@ export async function POST(req: Request, params: { params: { id: string } }) {
         data: {
           threadId: id,
           userId: userid,
-          command,
+          body,
         },
       });
 
@@ -34,7 +34,7 @@ export async function POST(req: Request, params: { params: { id: string } }) {
         parentId,
         threadId: id,
         userId: userid,
-        command,
+        body,
       },
     });
 

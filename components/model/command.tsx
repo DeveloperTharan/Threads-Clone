@@ -21,29 +21,15 @@ interface CommandProps {
   commands?: (Commands & {
     user: User;
   })[];
-  parentId?: string;
-  level?: number;
 }
 
-export const Command = ({
-  children,
-  threadId,
-  commands,
-  level = 0,
-}: CommandProps) => {
+export const Command = ({ children, threadId, commands }: CommandProps) => {
   const [parentId, setParentId] = useState<string | undefined>(undefined);
-  const [expand, setExpand] = useState<Record<string, boolean>>({});
 
   const handleParentId = (id: string) => {
     setParentId(id);
-  };
+  };console.log(commands)
 
-  const onExpand = (commandId: string) => {
-    setExpand((prevExpand) => ({
-      ...prevExpand,
-      [commandId]: !prevExpand[commandId],
-    }));
-  };
   return (
     <Drawer>
       <DrawerTrigger>{children}</DrawerTrigger>
@@ -66,25 +52,7 @@ export const Command = ({
             </div>
           )}
 
-          <div className="flex flex-col h-full w-full gap-8 mb-64">
-            {commands?.map((data) => (
-              <div className="w-full h-auto" key={data.id}>
-                <CommandsList
-                  id={data.id}
-                  userId={data.userId}
-                  command={data.command}
-                  user={data.user}
-                  level={level}
-                  onExpand={() => onExpand(data.id)}
-                  expanded={expand[data.id]}
-                  handleParentId={handleParentId}
-                />
-                {expand[data.id] && (
-                  <Command parentId={data.id} level={level + 1} />
-                )}
-              </div>
-            ))}
-          </div>
+          <div className="flex flex-col h-full w-full gap-8 mb-64"></div>
 
           <CommandInput
             threadId={threadId!}

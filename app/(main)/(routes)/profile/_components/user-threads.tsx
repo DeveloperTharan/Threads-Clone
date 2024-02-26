@@ -21,7 +21,8 @@ export const UserThreads = ({ userData }: UserThreadsProps) => {
   return (
     <div
       className={cn(
-        "w-full h-full flex flex-col justify-start items-start gap-4"
+        "w-full h-auto flex flex-col justify-start items-start gap-4",
+        userData.threads.length > 0 && 'h-full'
       )}
     >
       {userData.threads.length == 0 || null ? (

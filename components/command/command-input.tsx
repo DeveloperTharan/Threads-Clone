@@ -44,7 +44,7 @@ export const CommandInput = ({
   const onSubmit = async (value: z.infer<typeof formShema>) => {
     try {
       await axios.post(`/api/thread/command/${threadId}`, {
-        command: value.command,
+        body: value.command,
         parentId,
         userid: User?.id,
       });
