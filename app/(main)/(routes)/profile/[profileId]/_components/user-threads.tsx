@@ -39,6 +39,7 @@ export const UserThreads = ({ userData }: UserThreadsProps) => {
               <ThreadUi
                 userName={userData.user_name}
                 userImage={userData.imageURL}
+                userId={userData.id}
                 id={data.id}
                 description={data.description || ""}
                 assert={data.assert || ""}

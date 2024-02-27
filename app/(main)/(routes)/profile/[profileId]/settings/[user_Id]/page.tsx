@@ -11,7 +11,7 @@ import { clerkClient, useAuth } from "@clerk/nextjs";
 export default function SettingsPage({
   params,
 }: {
-  params: { profileId: string };
+  params: { user_Id: string };
 }) {
   const [Open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false); 
@@ -19,14 +19,14 @@ export default function SettingsPage({
   const router = useRouter();
   const { userId } = useAuth();
 
-  const { profileId } = params;
+  const { user_Id } = params;
 
   if (!userId) return router.push("/sign-in");
 
   const onClick = async () => {
     try {
       setIsLoading(true);
-      await axios.delete(`/api/profile/${profileId}`);
+      await axios.delete(`/api/profile/${user_Id}`);
       setIsLoading(false);
       router.push("/sign-in");
       return new NextResponse("success", { status: 200 });

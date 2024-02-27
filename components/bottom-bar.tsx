@@ -9,12 +9,14 @@ import { GrHomeRounded } from "react-icons/gr";
 import { IoPersonOutline } from "react-icons/io5";
 import { RiSearchLine, RiShareCircleLine } from "react-icons/ri";
 import { CreateThreadModel } from "./model/create-thread";
+import { useUser } from "@/context/user-context";
 
 export const BottomBar = () => {
   const [Open, setOpen] = useState<boolean>(false);
 
   const router = useRouter();
   const pathname = usePathname();
+  const { User } = useUser();
 
   return (
     <div className="w-full h-fit py-1 bg-neutral-900 rounded-t-3xl fixed md:hidden bottom-0 left-0 z-50">
@@ -48,9 +50,9 @@ export const BottomBar = () => {
           setOpen={setOpen}
           onClick={() => setOpen(!Open)}
         >
-          <button className="btn">
+          <div className="btn">
             <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
-          </button>
+          </div>
         </CreateThreadModel>
         <button
           className="btn"
@@ -66,7 +68,7 @@ export const BottomBar = () => {
         </button>
         <button
           className="btn"
-          onClick={() => router.push("/profile")}
+          onClick={() => router.push(`/profile/${User?.id}`)}
         >
           <IoPersonOutline
             size={24}

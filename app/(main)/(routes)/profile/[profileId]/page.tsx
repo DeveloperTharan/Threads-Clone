@@ -9,11 +9,11 @@ import { UserInfo } from "./_components/user-info";
 import { UserThreads } from "./_components/user-threads";
 
 export async function generateMetadata(params: {
-  params: { profileid: string };
+  params: { profileId: string };
 }): Promise<Metadata> {
-  const { profileid } = params.params;
+  const { profileId } = params.params;
 
-  const { profile } = await getProfile({ profileid });
+  const { profile } = await getProfile({ profileId });
 
   return {
     title: profile?.user_name,
@@ -28,14 +28,14 @@ export async function generateMetadata(params: {
 }
 
 export default async function ProfilePage(params: {
-  params: { profileid: string };
+  params: { profileId: string };
 }) {
   const { userId } = auth();
-  const { profileid } = params.params;
+  const { profileId } = params.params;
 
   if (!userId) return redirect("/sign-in");
 
-  const { profile, gender } = await getProfile({ profileid });
+  const { profile, gender } = await getProfile({ profileId });
 
   return (
     <>

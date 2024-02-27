@@ -1,11 +1,11 @@
 import { db } from "@/lib/db";
 
-export const getProfile = async ({ profileid }: { profileid: string }) => {
+export const getProfile = async ({ profileId }: { profileId: string }) => {
   try {
     const [profile, gender] = await Promise.all([
       db.user.findUnique({
         where: {
-          id: profileid,
+          id: profileId,
         },
         include: {
           followers: true,

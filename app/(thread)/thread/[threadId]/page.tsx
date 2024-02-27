@@ -16,6 +16,7 @@ export default async function ThreadIdPage(params: {
       <ThreadUi
         userName={thread?.user.user_name!}
         userImage={thread?.user.imageURL!}
+        userId={thread?.user.id!}
         id={thread?.id!}
         description={thread?.description || ""}
         assert={thread?.assert || ""}

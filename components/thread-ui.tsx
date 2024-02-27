@@ -8,10 +8,13 @@ import { BottomActionBtn } from "./actions/bottom-action-btn";
 import { BsThreeDots } from "react-icons/bs";
 import { timeSince } from "@/lib/time-since";
 import { Commands, Likes, User } from "@prisma/client";
+import { redirect } from "next/navigation";
+import { ImageUi } from "./Image";
 
 interface ThreadUiProps {
   userImage: string;
   userName: string;
+  userId: string;
   id: string;
   description: string;
   assert: string;
@@ -22,12 +25,13 @@ interface ThreadUiProps {
   commands: (Commands & {
     user: User;
   })[];
-  url: string
+  url: string;
 }
 
 export const ThreadUi = ({
   userImage,
   userName,
+  userId,
   id,
   description,
   assert,
@@ -42,14 +46,7 @@ export const ThreadUi = ({
     <>
       <div className="w-full flex flex-row justify-between items-center">
         <div className="flex flex-row w-full justify-start gap-x-4">
-          <Image
-            src={userImage}
-            alt={userName}
-            title={userName}
-            width={45}
-            height={45}
-            className="rounded-full cursor-pointer"
-          />
+          <ImageUi userName={userName} userImage={userImage} userId={userId} />
           <span className="text-lg">{userName}</span>
         </div>
         <div className="flex flex-row items-center justify-end gap-x-4 w-full">
@@ -78,7 +75,12 @@ export const ThreadUi = ({
               className="cursor-pointer rounded-lg"
             />
           ) : null}
-          <BottomActionBtn threadId={id} likes={likes} commands={commands} url={url} />
+          <BottomActionBtn
+            threadId={id}
+            likes={likes}
+            commands={commands}
+            url={url}
+          />
           {likeCount > 0 && (
             <p className="text-sm text-neutral-700">{likeCount} Likes</p>
           )}
