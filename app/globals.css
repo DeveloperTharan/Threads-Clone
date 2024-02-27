@@ -97,6 +97,6 @@ body,
   @apply px-7 py-4 hover:bg-neutral-700/30 rounded-md outline-0 transform active:scale-75 transition-transform;
 }
 
-.btn-sm {
+.btn-icon {
   @apply p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform active:scale-75 transition-transform;
 }

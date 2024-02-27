@@ -47,7 +47,7 @@ export const UserThreads = ({ userData }: UserThreadsProps) => {
                 likes={data.likes}
                 date={data.createdAt}
                 commands={data.commands}
-                url={data.threadUrl}
+                url={data.threadUrl!}
               />
             </div>
           ))}

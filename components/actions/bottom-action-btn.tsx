@@ -67,15 +67,15 @@ export const BottomActionBtn = ({
           role="button"
         />
       ) : (
-        <GoHeart size={30} className="btn-sm" onClick={onClick} role="button" />
+        <GoHeart size={30} className="btn-icon" onClick={onClick} role="button" />
       )}
       <Command threadId={threadId} commands={commands}>
-        <IoChatbubblesOutline size={30} className="btn-sm" role="button" />
+        <IoChatbubblesOutline size={30} className="btn-icon" />
       </Command>
-      <PiArrowsClockwise size={30} className="btn-sm" role="button" />
+      <PiArrowsClockwise size={30} className="btn-icon" role="button" />
       <Popover>
         <PopoverTrigger>
-          <CiLocationArrow1 size={30} className="btn-sm" role="button" />
+          <CiLocationArrow1 size={30} className="btn-icon" />
         </PopoverTrigger>
         <PopoverContent
           align="start"
