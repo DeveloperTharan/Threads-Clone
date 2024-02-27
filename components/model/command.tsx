@@ -15,6 +15,7 @@ import { CommandInput } from "../command/command-input";
 import { PiChatsCircleDuotone } from "react-icons/pi";
 import { Spinner } from "../ui/spinner";
 import { StructureData } from "@/lib/structure-data";
+import { cn } from "@/lib/utils";
 
 interface CommandProps {
   children?: React.ReactNode;
@@ -41,24 +42,33 @@ export const Command = ({ children, threadId, commands }: CommandProps) => {
           Commands...
         </h1>
         <DrawerDescription className="w-full h-96 px-6 md:px-20 overflow-auto scrollbar-hide">
-          {!commands ||
-            (commands.length == 0 && (
-              <div className="h-full flex flex-col space-y-2 items-center justify-center">
-                <PiChatsCircleDuotone size={100} className="text-neutral-600" />
-                <p className="text-sm text-neutral-600">No commands...</p>
+          <div
+            className={cn(
+              "flex flex-col h-full w-full gap-8",
+              commands?.length! > 0 && "h-auto pb-20"
+            )}
+          >
+            {!commands ||
+              (commands.length == 0 && (
+                <div className="h-full flex flex-col space-y-2 items-center justify-center">
+                  <PiChatsCircleDuotone
+                    size={100}
+                    className="text-neutral-600"
+                  />
+                  <p className="text-sm text-neutral-600">No commands...</p>
+                </div>
+              ))}
+            {commands == undefined && (
+              <div className="h-full flex items-center justify-center">
+                <Spinner size={"lg"} />
               </div>
-            ))}
-
-          {commands == undefined && (
-            <div className="h-full flex items-center justify-center">
-              <Spinner size={"lg"} />
-            </div>
-          )}
-
-          <div className="flex flex-col h-full w-full gap-8 mb-64">
-            <CommandsList commands={OrganizedCommands} getParentId={handleParentId} />
+            )}
+            <CommandsList
+              commands={OrganizedCommands}
+              getParentId={handleParentId}
+              threadId={threadId}
+            />
           </div>
-
           <CommandInput
             threadId={threadId!}
             parentId={parentId}

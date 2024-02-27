@@ -1,9 +1,14 @@
 import { Commands, User } from "@prisma/client";
 
+interface CommandNode extends Commands {
+  user: User;
+  children?: CommandNode[];
+}
+
 export const StructureData = (
-  commandsArray: (Commands & { user: User })[],
+  commandsArray: CommandNode[],
   parentId: string | null = null
-): (Commands & { user: User })[] => {
+): CommandNode[] => {
   return commandsArray
     .filter((command) => command.parentId === parentId)
     .map((command) => ({

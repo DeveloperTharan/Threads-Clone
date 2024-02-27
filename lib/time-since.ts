@@ -1,26 +1,33 @@
 export const timeSince = (date: Date) => {
-  const d = new Date();
-  const seconds = Math.floor((d.getTime() - date.getTime()) / 1000);
-  var interval = seconds / 31536000;
+  const seconds = Math.floor((getCurrentTime() - date.getTime()) / 1000);
+  const interval = getInterval(seconds);
 
-  if (interval > 1) {
-    return Math.floor(interval) + "y";
+  if (interval.unit) {
+    return Math.floor(interval.value) + interval.unit;
   }
-  interval = seconds / 2592000;
-  if (interval > 1) {
-    return Math.floor(interval) + "m";
-  }
-  interval = seconds / 86400;
-  if (interval > 1) {
-    return Math.floor(interval) + "d";
-  }
-  interval = seconds / 3600;
-  if (interval > 1) {
-    return Math.floor(interval) + "h";
-  }
-  interval = seconds / 60;
-  if (interval > 1) {
-    return Math.floor(interval) + "m";
-  }
+
   return Math.floor(seconds) + "s";
+};
+
+const getCurrentTime = () => {
+  return new Date().getTime();
+};
+
+const getInterval = (seconds: number) => {
+  const intervals = [
+    { unit: "y", divisor: 31536000 },
+    { unit: "m", divisor: 2592000 },
+    { unit: "d", divisor: 86400 },
+    { unit: "h", divisor: 3600 },
+    { unit: "m", divisor: 60 },
+  ];
+
+  for (const { unit, divisor } of intervals) {
+    const interval = seconds / divisor;
+    if (interval > 1) {
+      return { value: interval, unit };
+    }
+  }
+
+  return {};
 };
