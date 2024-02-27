@@ -32,22 +32,15 @@ export const Header = () => {
   const { User } = useUser();
 
   useEffect(() => {
-    window.addEventListener("scroll", () => {
-      if (window.scrollY > 80) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    });
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY >  80);
+    };
 
-    return () =>
-      window.removeEventListener("scroll", () => {
-        if (window.scrollY > 80) {
-          setIsScrolled(true);
-        } else {
-          setIsScrolled(false);
-        }
-      });
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const handleSignOut = () => {
