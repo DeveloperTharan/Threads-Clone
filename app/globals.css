@@ -94,9 +94,9 @@ body,
 }
 
 .btn {
-  @apply px-7 py-4 hover:bg-neutral-700/30 rounded-md outline-0 shadow-lg transform active:scale-75 transition-transform;
+  @apply px-7 py-4 hover:bg-neutral-700/30 rounded-md outline-0 transform active:scale-75 transition-transform;
 }
 
 .btn-sm {
-  @apply p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 shadow-lg transform active:scale-75 transition-transform;
+  @apply p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform active:scale-75 transition-transform;
 }

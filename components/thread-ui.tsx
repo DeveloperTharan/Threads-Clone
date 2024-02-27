@@ -22,6 +22,7 @@ interface ThreadUiProps {
   commands: (Commands & {
     user: User;
   })[];
+  url: string
 }
 
 export const ThreadUi = ({
@@ -35,6 +36,7 @@ export const ThreadUi = ({
   likes,
   date,
   commands,
+  url,
 }: ThreadUiProps) => {
   return (
     <>
@@ -76,7 +78,7 @@ export const ThreadUi = ({
               className="cursor-pointer rounded-lg"
             />
           ) : null}
-          <BottomActionBtn threadId={id} likes={likes} commands={commands} />
+          <BottomActionBtn threadId={id} likes={likes} commands={commands} url={url} />
           {likeCount > 0 && (
             <p className="text-sm text-neutral-700">{likeCount} Likes</p>
           )}

@@ -15,11 +15,6 @@ export async function POST(req: Request) {
 
     if (!userId) return new NextResponse("Unauthorized", { status: 400 });
 
-    const origin =
-      typeof window !== "undefined" && window.location.origin
-        ? window.location.origin
-        : "";
-
     // Correctly construct the threadUrl after creating the thread
     const res = await db.threads.create({
       data: {
@@ -31,7 +26,7 @@ export async function POST(req: Request) {
     });
 
     // Use the id from the response to construct the threadUrl
-    const threadUrl: string = `${origin}/thread/${res.id}`;
+    const threadUrl: string = `${process.env.BASE_URL}/thread/${res.id}`;
 
     // Update the thread with the constructed threadUrl
     await db.threads.update({
