@@ -13,7 +13,7 @@ import {
 import { Button } from "../ui/button";
 import { Spinner } from "../ui/spinner";
 
-interface EditProfileProps {
+interface DeleteAccProps {
   children: React.ReactNode;
   onConfirm: () => void;
   onClick: () => void;
@@ -27,7 +27,7 @@ export const DeleteAcc = ({
   onClick,
   Open,
   isLoading,
-}: EditProfileProps) => {
+}: DeleteAccProps) => {
   return (
     <Dialog open={Open == true} onOpenChange={onClick}>
       <DialogTrigger className="bg-red-600 px-4 py-2 rounded-lg">

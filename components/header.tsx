@@ -74,10 +74,7 @@ export const Header = () => {
             )}
             onClick={() => router.back()}
           />
-          <button
-            className="btn"
-            onClick={() => router.push("/")}
-          >
+          <button className="btn" onClick={() => router.push("/")}>
             <GrHomeRounded
               size={24}
               className={cn(
@@ -86,10 +83,7 @@ export const Header = () => {
               )}
             />
           </button>
-          <button
-            className="btn"
-            onClick={() => router.push("/search")}
-          >
+          <button className="btn" onClick={() => router.push("/search")}>
             <RiSearchLine
               size={24}
               className={cn(
@@ -107,10 +101,7 @@ export const Header = () => {
               <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
             </div>
           </CreateThreadModel>
-          <button
-            className="btn"
-            onClick={() => router.push("/activity")}
-          >
+          <button className="btn" onClick={() => router.push("/activity")}>
             <PiHeart
               size={24}
               className={cn(
@@ -119,10 +110,7 @@ export const Header = () => {
               )}
             />
           </button>
-          <button
-            className="btn"
-            onClick={() => router.push("/profile")}
-          >
+          <button className="btn" onClick={() => router.push(`/profile/${User?.id}`)}>
             <IoPersonOutline
               size={24}
               className={cn(

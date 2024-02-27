@@ -1,18 +1,41 @@
 import React from "react";
-import { redirect } from "next/navigation";
 import { auth } from "@clerk/nextjs";
+import { redirect } from "next/navigation";
+import type { Metadata } from "next";
 
 import { Spinner } from "@/components/ui/spinner";
 import { getProfile } from "@/action/get-profile";
 import { UserInfo } from "./_components/user-info";
 import { UserThreads } from "./_components/user-threads";
 
-export default async function ProfilePage() {
+export async function generateMetadata(params: {
+  params: { profileid: string };
+}): Promise<Metadata> {
+  const { profileid } = params.params;
+
+  const { profile } = await getProfile({ profileid });
+
+  return {
+    title: profile?.user_name,
+    openGraph: {
+      images: [
+        {
+          url: profile?.imageURL!,
+        },
+      ],
+    },
+  };
+}
+
+export default async function ProfilePage(params: {
+  params: { profileid: string };
+}) {
   const { userId } = auth();
+  const { profileid } = params.params;
 
   if (!userId) return redirect("/sign-in");
 
-  const { profile, gender } = await getProfile({userId});
+  const { profile, gender } = await getProfile({ profileid });
 
   return (
     <>
