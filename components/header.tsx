@@ -75,7 +75,7 @@ export const Header = () => {
             onClick={() => router.back()}
           />
           <button
-            className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+            className="btn"
             onClick={() => router.push("/")}
           >
             <GrHomeRounded
@@ -87,7 +87,7 @@ export const Header = () => {
             />
           </button>
           <button
-            className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+            className="btn"
             onClick={() => router.push("/search")}
           >
             <RiSearchLine
@@ -103,12 +103,12 @@ export const Header = () => {
             setOpen={setOpen}
             onClick={() => setOpen(!Open)}
           >
-            <div className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer">
+            <div className="btn">
               <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
             </div>
           </CreateThreadModel>
           <button
-            className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+            className="btn"
             onClick={() => router.push("/activity")}
           >
             <PiHeart
@@ -120,7 +120,7 @@ export const Header = () => {
             />
           </button>
           <button
-            className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+            className="btn"
             onClick={() => router.push("/profile")}
           >
             <IoPersonOutline

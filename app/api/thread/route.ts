@@ -13,23 +13,32 @@ export async function POST(req: Request) {
     const { userId } = auth();
     const { description, assert, id }: values = await req.json();
 
+    if (!userId) return new NextResponse("Unauthorized", { status: 400 });
+
     const origin =
       typeof window !== "undefined" && window.location.origin
         ? window.location.origin
         : "";
 
-    const threadUrl: string = `${origin}/preview/${Math.round(
-      Math.random() * 100000
-    )}`;
-
-    if (!userId) return new NextResponse("Unauthorized", { status: 400 });
-
+    // Correctly construct the threadUrl after creating the thread
     const res = await db.threads.create({
       data: {
         userId: id,
         authuserId: userId,
         description,
         assert,
+      },
+    });
+
+    // Use the id from the response to construct the threadUrl
+    const threadUrl: string = `${origin}/thread/${res.id}`;
+
+    // Update the thread with the constructed threadUrl
+    await db.threads.update({
+      where: {
+        id: res.id,
+      },
+      data: {
         threadUrl,
       },
     });
@@ -37,6 +46,6 @@ export async function POST(req: Request) {
     return NextResponse.json(res, { status: 200 });
   } catch (error) {
     console.log("[THREAD_ERROR]", error);
-    return new NextResponse("Internall Error", { status: 500 });
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }

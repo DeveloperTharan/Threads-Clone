@@ -19,8 +19,8 @@ export const BottomBar = () => {
   return (
     <div className="w-full h-fit py-1 bg-neutral-900 rounded-t-3xl fixed md:hidden bottom-0 left-0 z-50">
       <div className="flex flex-row items-center justify-evenly">
-        <div
-          className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+        <button
+          className="btn"
           onClick={() => router.push("/")}
         >
           <GrHomeRounded
@@ -30,9 +30,9 @@ export const BottomBar = () => {
               pathname === "/" && "text-neutral-100"
             )}
           />
-        </div>
-        <div
-          className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+        </button>
+        <button
+          className="btn"
           onClick={() => router.push("/search")}
         >
           <RiSearchLine
@@ -42,18 +42,18 @@ export const BottomBar = () => {
               pathname === "/search" && "text-neutral-100"
             )}
           />
-        </div>
+        </button>
         <CreateThreadModel
           Open={Open}
           setOpen={setOpen}
           onClick={() => setOpen(!Open)}
         >
-          <div className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer">
+          <button className="btn">
             <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
-          </div>
+          </button>
         </CreateThreadModel>
-        <div
-          className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+        <button
+          className="btn"
           onClick={() => router.push("/ativity")}
         >
           <PiHeart
@@ -63,9 +63,9 @@ export const BottomBar = () => {
               pathname === "/ativity" && "text-neutral-100"
             )}
           />
-        </div>
-        <div
-          className="px-7 py-4 hover:bg-neutral-700/30 rounded-md cursor-pointer"
+        </button>
+        <button
+          className="btn"
           onClick={() => router.push("/profile")}
         >
           <IoPersonOutline
@@ -75,7 +75,7 @@ export const BottomBar = () => {
               pathname === "/profile" && "text-neutral-100"
             )}
           />
-        </div>
+        </button>
       </div>
     </div>
   );

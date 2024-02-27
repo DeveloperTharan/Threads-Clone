@@ -50,7 +50,7 @@ export const BottomActionBtn = ({
       ) : (
         <GoHeart
           size={30}
-          className="p-1 rounded-full hover:bg-neutral-700/50 text-neutral-500"
+          className="btn-sm"
           onClick={onClick}
           role="button"
         />
@@ -58,18 +58,18 @@ export const BottomActionBtn = ({
       <Command threadId={threadId} commands={commands}>
         <IoChatbubblesOutline
           size={30}
-          className="p-1 rounded-full hover:bg-neutral-700/50 text-neutral-500"
+          className="btn-sm"
           role="button"
         />
       </Command>
       <PiArrowsClockwise
         size={30}
-        className="p-1 rounded-full hover:bg-neutral-700/50 text-neutral-500"
+        className="btn-sm"
         role="button"
       />
       <CiLocationArrow1
         size={30}
-        className="p-1 rounded-full hover:bg-neutral-700/50 text-neutral-500"
+        className="btn-sm"
         role="button"
       />
     </div>
