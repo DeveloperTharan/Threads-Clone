@@ -1,0 +1,158 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  user_name     String    @unique
+  email         String    @unique
+  password      String
+  official_name String?
+  emailVerified DateTime?
+  image         String?
+  phone_no      String?
+  bio           String?
+  status        String?
+
+  accounts Account[]
+
+  genderId String?
+  gender   Gender? @relation(fields: [genderId], references: [id])
+
+  threads          Threads[]
+  threadsLiked     Likes[]
+  threadsCommanded Command[]
+  commandsLiked    CommandLikes[]
+
+  followers Follows[] @relation("following")
+  following Follows[] @relation("follower")
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Gender {
+  id   String @unique @default(cuid())
+  type String @unique
+  user User[]
+}
+
+model Follows {
+  id String @unique @default(cuid())
+
+  followerId String
+  follower   User   @relation("follower", fields: [followerId], references: [id])
+
+  followingId String
+  following   User   @relation("following", fields: [followingId], references: [id])
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([followerId, followingId])
+  @@index([followerId, followingId])
+}
+
+model Threads {
+  id          String  @unique @default(cuid())
+  userId      String
+  authuserId  String
+  assert      String?
+  description String?
+  threadUrl   String? @unique
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  likes      Likes[]
+  command    Command[]
+  like_count Int       @default(0)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+}
+
+model Likes {
+  id String @unique @default(cuid())
+
+  threadId String
+  thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createAt DateTime @default(now())
+
+  @@unique([threadId, userId])
+  @@index([threadId])
+}
+
+model Command {
+  id   String @unique @default(cuid())
+  body String @db.Text
+
+  parentId String?
+  parent   Command?  @relation("CommandTree", fields: [parentId], references: [id])
+  children Command[] @relation("CommandTree")
+
+  threadId String
+  thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  likes CommandLikes[]
+
+  like_count Int @default(0)
+
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([threadId])
+}
+
+model CommandLikes {
+  id String @unique @default(cuid())
+
+  commandId String
+  command   Command @relation(fields: [commandId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  createAt DateTime @default(now())
+
+  @@unique([commandId, userId])
+  @@index([commandId])
+}
