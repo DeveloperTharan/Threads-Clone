@@ -6,7 +6,7 @@ import { signInSchema } from "@/components/auth/schema";
 export const SignIn = async (values: z.infer<typeof signInSchema>) => {
   const validatedFields = signInSchema.safeParse(values);
 
-  if (!validatedFields) {
+  if (!validatedFields.success) {
     return { error: "Invalid fields!" };
   }
 
