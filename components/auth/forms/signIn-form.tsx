@@ -1,34 +1,45 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useTransition } from "react";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
+import { SignIn } from "@/actions/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signInSchemma as formSchemma } from "../form-schema";
+import { FormError } from "@/components/auth/form-error";
+import { FormSuccess } from "@/components/auth/form-success";
+import { signInSchema as formSchema } from "@/components/auth/schema";
 
 import { Eye, EyeOff } from "lucide-react";
 import { Button, Input } from "@nextui-org/react";
 
 export const SignInForm = () => {
+  const [error, setError] = useState<string | undefined>(undefined);
+  const [success, setSuccess] = useState<string | undefined>(undefined);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
-  const form = useForm<z.infer<typeof formSchemma>>({
-    resolver: zodResolver(formSchemma),
+  const [isPending, startTransition] = useTransition();
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
       user_name: "",
       password: "",
     },
   });
 
-  const { isSubmitting, errors } = form.formState;
+  const { errors } = form.formState;
 
-  const onSubmit = async (values: z.infer<typeof formSchemma>) => {
-    try {
-      console.log(values);
-    } catch (error) {
-      console.log("SIGN_IN_ERROR", error);
-    }
+  const onSubmit = (values: z.infer<typeof formSchema>) => {
+    setError(undefined);
+    setSuccess(undefined);
+
+    startTransition(() => {
+      SignIn(values).then((data) => {
+        setError(data.error);
+        setSuccess(data.success);
+      });
+    });
   };
 
   const togglePasswordVisibility = () => {
@@ -48,9 +59,9 @@ export const SignInForm = () => {
         color="secondary"
         autoComplete="off"
         variant="underlined"
-        disabled={isSubmitting}
+        disabled={isPending}
         errorMessage={errors.user_name?.message}
-        onChange={(e) => form.setValue("user_name", e.target.value)}
+        onChange={(e) => form.setValue("user_name", `@${e.target.value}`)}
         startContent={<span className="text-default-400 text-small">@</span>}
       />
       <Input
@@ -61,7 +72,7 @@ export const SignInForm = () => {
         color="secondary"
         autoComplete="off"
         variant="underlined"
-        disabled={isSubmitting}
+        disabled={isPending}
         errorMessage={errors.password?.message}
         type={showPassword ? "text" : "password"}
         onChange={(e) => form.setValue("password", e.target.value)}
@@ -85,11 +96,14 @@ export const SignInForm = () => {
           </>
         }
       />
+      <FormError message={error} />
+      <FormSuccess message={success} />
       <Button
-        className="w-full"
-        color="secondary"
-        variant="solid"
         type="submit"
+        variant="solid"
+        color="secondary"
+        className="w-full"
+        disabled={isPending}
       >
         SignIn
       </Button>
