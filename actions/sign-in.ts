@@ -2,9 +2,11 @@
 
 import * as z from "zod";
 import { signIn } from "@/auth";
+import { AuthError } from "next-auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signInSchema } from "@/components/auth/schema";
-import { AuthError } from "next-auth";
+import { getUserByName } from "@/data/user";
+import { generateVerificationToken } from "@/data/tokens";
 
 export const SignIn = async (values: z.infer<typeof signInSchema>) => {
   const validatedFields = signInSchema.safeParse(values);
@@ -14,6 +16,20 @@ export const SignIn = async (values: z.infer<typeof signInSchema>) => {
   }
 
   const { user_name, password } = validatedFields.data;
+
+  const existingUser = await getUserByName(user_name);
+
+  if (!existingUser) {
+    return { error: "No such user found!" };
+  }
+
+  if (!existingUser?.emailVerified) {
+    const verificationToken = await generateVerificationToken(
+      existingUser.email
+    );
+
+    return { success: "Confirmation email sent!" }
+  }
 
   try {
     await signIn("credentials", {

@@ -4,6 +4,7 @@ import credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
 import { signInSchema } from "@/components/auth/schema";
+import { getUserByName } from "./data/user";
 
 export default {
   providers: [
@@ -14,11 +15,7 @@ export default {
         if (validateFields.success) {
           const { user_name, password } = validateFields.data;
 
-          const user = await db.user.findUnique({
-            where: {
-              user_name,
-            },
-          });
+          const user = await getUserByName(user_name);
 
           if (!user) return null;
 
