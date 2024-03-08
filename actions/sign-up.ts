@@ -3,7 +3,10 @@
 import * as z from "zod";
 import bcrypt from "bcryptjs";
 import { db } from "@/lib/db";
+import { signIn } from "@/auth";
+import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { SignUpSchema } from "@/components/auth/schema";
+import { AuthError } from "next-auth";
 
 export const SignUp = async (values: z.infer<typeof SignUpSchema>) => {
   const validatedFields = SignUpSchema.safeParse(values);
@@ -43,5 +46,23 @@ export const SignUp = async (values: z.infer<typeof SignUpSchema>) => {
     },
   });
 
-  return { success: "Threads accound created successfully" };
+  try {
+    await signIn("credentials", {
+      user_name,
+      password,
+      redirectTo: "/onboarding",
+    });
+
+    return { success: "Threads accound created successfully" };
+  } catch (error) {
+    if (error instanceof AuthError) {
+      switch (error.type) {
+        case "CredentialsSignin":
+          return { error: "Invalid Credentials!" };
+        default:
+          return { error: "Something went's wrong" };
+      }
+    }
+    throw error;
+  }
 };

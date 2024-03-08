@@ -14,9 +14,9 @@ datasource db {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  user_name     String    @unique
-  email         String    @unique
+  id            String      @id @default(cuid())
+  user_name     String      @unique
+  email         String      @unique
   password      String
   official_name String?
   emailVerified DateTime?
@@ -24,8 +24,7 @@ model User {
   phone_no      String?
   bio           String?
   status        String?
-
-  accounts Account[]
+  accountType   AccountType @default(Public)
 
   genderId String?
   gender   Gender? @relation(fields: [genderId], references: [id])
@@ -42,23 +41,9 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model Account {
-  id                String  @id @default(cuid())
-  userId            String
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String? @db.Text
-  access_token      String? @db.Text
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String? @db.Text
-  session_state     String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@unique([provider, providerAccountId])
+enum AccountType {
+  Public
+  Private
 }
 
 model Gender {
