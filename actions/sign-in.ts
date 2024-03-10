@@ -1,12 +1,14 @@
 "use server";
 
 import * as z from "zod";
+import bcrypt from "bcryptjs";
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { getUserByName } from "@/data/user";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { signInSchema } from "@/components/auth/schema";
-import { getUserByName } from "@/data/user";
 import { generateVerificationToken } from "@/data/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const SignIn = async (values: z.infer<typeof signInSchema>) => {
   const validatedFields = signInSchema.safeParse(values);
@@ -22,13 +24,20 @@ export const SignIn = async (values: z.infer<typeof signInSchema>) => {
   if (!existingUser) {
     return { error: "No such user found!" };
   }
+  const passwordMatche = await bcrypt.compare(password, existingUser.password);
+
+  if (!passwordMatche) return { error: "Invalid Password" };
 
   if (!existingUser?.emailVerified) {
     const verificationToken = await generateVerificationToken(
       existingUser.email
     );
 
-    return { success: "Confirmation email sent!" }
+    await sendVerificationEmail(
+      verificationToken.email,
+      verificationToken.token
+    );
+    return { success: "Confirmation email sent!" };
   }
 
   try {
