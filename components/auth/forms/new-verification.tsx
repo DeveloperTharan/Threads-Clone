@@ -32,11 +32,11 @@ export const NewVerification = () => {
         setSuccess(data.success);
         setError(data.error);
       })
-      .then(() => {
-        router.push("/auth/sign-in");
-      })
       .catch(() => {
         setError("Something went wrong!");
+      })
+      .finally(() => {
+        router.push("/auth/sign-in");
       });
   }, [token, success, error]);
 

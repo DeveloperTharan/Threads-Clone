@@ -1,16 +1,10 @@
 "use client";
 
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Button,
-  cn,
-} from "@nextui-org/react";
-import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+
+import { Card, CardHeader, CardBody, CardFooter, cn } from "@nextui-org/react";
+import Image from "next/image";
 
 interface CardWrapperProps {
   children: React.ReactNode;
@@ -29,7 +23,8 @@ export const CardWrapper = ({
   const pathname = usePathname();
 
   const isForgetPass = pathname.endsWith("forget-password");
-  const isNewVerification = pathname.includes("new-verification") 
+  const isNewVerification = pathname.includes("new-verification");
+  const isNewPassword = pathname.includes("new-password");
 
   return (
     <Card className="w-[25rem] p-4">
@@ -37,7 +32,12 @@ export const CardWrapper = ({
         <Image src={"/logo.svg"} alt="logo" width={80} height={80} />
       </CardHeader>
       <CardBody>{children}</CardBody>
-      <CardFooter className={cn("flex flex-col space-y-4 w-full", isNewVerification && "hidden" )}>
+      <CardFooter
+        className={cn(
+          "flex flex-col space-y-4 w-full",
+          isNewVerification || isNewPassword || (isForgetPass && "hidden")
+        )}
+      >
         <div
           className={cn(
             Or == "SignIn"
@@ -45,7 +45,7 @@ export const CardWrapper = ({
               : "flex items-center justify-between w-full"
           )}
         >
-          {Or == "SignUp" && !isForgetPass && (
+          {Or == "SignUp" && (
             <p
               className="text-xs font-normal cursor-pointer hover:underline"
               role="button"
