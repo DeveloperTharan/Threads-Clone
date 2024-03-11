@@ -1,28 +1,26 @@
-import { auth, signOut } from "@/auth";
-import { Button, Link } from "@nextui-org/react";
+"use client";
 
-export default async function Home() {
-  const session = await auth();
+import { SignOut } from "@/actions/sign-out";
+import { Button, Link } from "@nextui-org/react";
+import { useSession } from "next-auth/react";
+
+export default function Home() {
+  const session = useSession();
 
   return (
     <div className="h-auto min-h-screen flex flex-col items-center justify-center">
-      <Link
-        href="/auth/sign-in"
-        color="secondary"
-        className="px-2 py-1 rounded-xl border border-purple-600"
-      >
-        Login
-      </Link>
-      {JSON.stringify(session)}
-      {session !== null && (
-        <form
-          action={async () => {
-            "use server";
-            await signOut();
-          }}
+      {session.data === null && (
+        <Link
+          href="/auth/sign-in"
+          color="secondary"
+          className="px-2 py-1 rounded-xl border border-purple-600"
         >
-          <Button type="submit">SignOut</Button>
-        </form>
+          Login
+        </Link>
+      )}
+      {JSON.stringify(session)}
+      {session.data !== null && (
+        <Button onClick={() => SignOut()}>SignOut</Button>
       )}
     </div>
   );
