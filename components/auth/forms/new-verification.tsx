@@ -38,7 +38,7 @@ export const NewVerification = () => {
       .finally(() => {
         router.push("/onboarding");
       });
-  }, [token, success, error]);
+  }, [token, success, error, router]);
 
   useEffect(() => {
     onSubmit();

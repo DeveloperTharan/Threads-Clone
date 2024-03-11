@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 
 import { CardWrapper } from "@/components/auth/card-wrapper";
 import { SignInForm } from "@/components/auth/forms/signIn-form";
@@ -10,7 +10,9 @@ export default function SignIn() {
       OrRedirect="sign-up"
       forgetRediret="forget-password"
     >
-      <SignInForm />
+      <Suspense>
+        <SignInForm />
+      </Suspense>
     </CardWrapper>
   );
 }

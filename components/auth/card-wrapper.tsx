@@ -61,7 +61,7 @@ export const CardWrapper = ({
                 role="button"
                 onClick={() => router.push(`/auth/${OrRedirect}`)}
               >
-                Don't have a accound?
+                Don&apos;t have a accound?
               </p>
             )}
             {Or == "SignIn" && (
