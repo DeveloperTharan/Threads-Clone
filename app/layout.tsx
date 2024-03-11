@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { UiProviders } from "@/provider/ui-provider";
 import { Toaster } from "react-hot-toast";
+import { EdgeStoreProvider } from "@/provider/edgestore";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -32,15 +33,17 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={roboto.className}>
-        <UiProviders>{children}</UiProviders>
+        <UiProviders>
+          <EdgeStoreProvider>{children}</EdgeStoreProvider>
+        </UiProviders>
         <Toaster
           position="top-right"
           gutter={24}
           toastOptions={{
             style: {
-              color: '#ffffff',
-              background: '#000000',
-              borderRadius: '20px'
+              color: "#ffffff",
+              background: "#000000",
+              borderRadius: "20px",
             },
           }}
         />
