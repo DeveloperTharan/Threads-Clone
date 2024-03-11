@@ -36,7 +36,7 @@ export const NewVerification = () => {
         setError("Something went wrong!");
       })
       .finally(() => {
-        router.push("/auth/sign-in");
+        router.push("/onboarding");
       });
   }, [token, success, error]);
 

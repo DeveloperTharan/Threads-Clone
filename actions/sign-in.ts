@@ -10,7 +10,10 @@ import { signInSchema } from "@/components/auth/schema";
 import { generateVerificationToken } from "@/data/tokens";
 import { sendVerificationEmail } from "@/lib/mail";
 
-export const SignIn = async (values: z.infer<typeof signInSchema>) => {
+export const SignIn = async (
+  values: z.infer<typeof signInSchema>,
+  callbackUrl?: string | null
+) => {
   const validatedFields = signInSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -44,7 +47,7 @@ export const SignIn = async (values: z.infer<typeof signInSchema>) => {
     await signIn("credentials", {
       user_name,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
 
     return { success: "Your are SignIn successfully" };

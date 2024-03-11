@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
 
 import * as z from "zod";
 import { useForm } from "react-hook-form";
@@ -20,6 +21,10 @@ export const SignInForm = () => {
 
   const [isPending, startTransition] = useTransition();
 
+  const searchParams = useSearchParams();
+
+  const callbackUrl = searchParams.get("callbackUrl");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,7 +40,7 @@ export const SignInForm = () => {
     setSuccess(undefined);
 
     startTransition(() => {
-      SignIn(values).then((data) => {
+      SignIn(values, callbackUrl).then((data) => {
         setError(data.error);
         setSuccess(data.success);
       });

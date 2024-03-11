@@ -29,7 +29,7 @@ export const {
     },
   },
   callbacks: {
-    async signIn({ user, account }) {
+    async signIn({ user }) {
       
       const existingUser = await getUserById(user.id!)
 
