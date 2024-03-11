@@ -23,15 +23,3 @@ export const getVerificationTokenByEmail = async (email: string) => {
     return null;
   }
 };
-
-export const getVerificationTokenByName = async (user_name: string) => {
-  try {
-    const verificationToken = await db.verificationToken.findFirst({
-      where: { user_name },
-    });
-
-    return verificationToken;
-  } catch {
-    return null;
-  }
-};

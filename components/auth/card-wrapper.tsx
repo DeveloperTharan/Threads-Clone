@@ -29,6 +29,7 @@ export const CardWrapper = ({
   const pathname = usePathname();
 
   const isForgetPass = pathname.endsWith("forget-password");
+  const isNewVerification = pathname.includes("new-verification") 
 
   return (
     <Card className="w-[25rem] p-4">
@@ -36,7 +37,7 @@ export const CardWrapper = ({
         <Image src={"/logo.svg"} alt="logo" width={80} height={80} />
       </CardHeader>
       <CardBody>{children}</CardBody>
-      <CardFooter className="flex flex-col space-y-4 w-full">
+      <CardFooter className={cn("flex flex-col space-y-4 w-full", isNewVerification && "hidden" )}>
         <div
           className={cn(
             Or == "SignIn"
