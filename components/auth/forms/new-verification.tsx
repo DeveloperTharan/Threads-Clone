@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { redirect, useRouter, useSearchParams } from "next/navigation";
 
 import { FormError } from "../form-error";
 import { BeatLoader } from "react-spinners";
@@ -15,6 +15,7 @@ export const NewVerification = () => {
   const [success, setSuccess] = useState<string | undefined>();
 
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const token = searchParams.get("token");
 
@@ -30,6 +31,9 @@ export const NewVerification = () => {
       .then((data) => {
         setSuccess(data.success);
         setError(data.error);
+      })
+      .then(() => {
+        router.push("/auth/sign-in");
       })
       .catch(() => {
         setError("Something went wrong!");
