@@ -16,11 +16,13 @@ export const onBoardingProfile = async (
 
   const existingUser = await getUserByName(values.user_name);
 
-  if (existingUser?.user_name === values.user_name) {
-    return { error: "username already exist use different" };
-  }
-
   const { user } = session;
+
+  if (existingUser?.id !== user.id) {
+    if (existingUser?.user_name === values.user_name) {
+      return { error: "username already exist use different" };
+    }
+  }
 
   const res = await db.user.update({
     where: {

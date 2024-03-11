@@ -1,8 +1,7 @@
 import React from "react";
-import { OnboardingUserForm } from "@/components/onboarding/onboarding-user";
 import { db } from "@/lib/db";
-import { useCurrentUser } from "@/hooks/use-current-user";
 import { auth } from "@/auth";
+import { OnboardingUserForm } from "@/components/onboarding/onboarding-user";
 
 export default async function OnBoardingPage() {
   const session = await auth();
