@@ -6,8 +6,8 @@ import { getVerificationTokenByEmail } from "@/data/verification-token";
 export const generateVerificationToken = async (email: string) => {
   const token = uuidv4();
 
-  // expire the token in 1 houre, It will calculate the no.of milliseconds in 1 houre
-  const expires = new Date(new Date().getTime() + 3600 * 1000);
+  // expire the token in 15 min, It will calculate the no.of milliseconds in 15 min
+  const expires = new Date(new Date().getTime() + 15 * 60 * 1000);
 
   const existingToken = await getVerificationTokenByEmail(email);
 
@@ -32,7 +32,7 @@ export const generateVerificationToken = async (email: string) => {
 
 export const generatePasswordResetToken = async (email: string) => {
   const token = uuidv4();
-  const expires = new Date(new Date().getTime() + 3600 * 1000);
+  const expires = new Date(new Date().getTime() + 15 * 60 * 1000);
 
   const existingToken = await getPasswordResetTokenByEmail(email);
 
