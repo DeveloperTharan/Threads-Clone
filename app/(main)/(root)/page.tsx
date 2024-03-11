@@ -7,6 +7,10 @@ import { useSession } from "next-auth/react";
 export default function Home() {
   const session = useSession();
 
+  const signOut = async () => {
+    await SignOut();
+  }
+
   return (
     <div className="h-auto min-h-screen flex flex-col items-center justify-center">
       {session.data === null && (
@@ -20,7 +24,7 @@ export default function Home() {
       )}
       {JSON.stringify(session)}
       {session.data !== null && (
-        <Button onClick={() => SignOut()}>SignOut</Button>
+        <Button onClick={signOut}>SignOut</Button>
       )}
     </div>
   );

@@ -28,8 +28,9 @@ export const CardWrapper = ({
 
   return (
     <Card className="w-[25rem] p-4">
-      <CardHeader className="flex items-center justify-center">
-        <Image src={"/logo.svg"} alt="logo" width={80} height={80} />
+      <CardHeader className="flex flex-col items-center justify-center space-y-2">
+        <Image src={"/logo.svg"} alt="logo" width={50} height={50} />
+        <p className="text-center text-neutral-200">Welcome to Threads!</p>
       </CardHeader>
       <CardBody>{children}</CardBody>
       <CardFooter
