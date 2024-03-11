@@ -1,19 +1,24 @@
+import { auth } from "@/auth";
 import { Metadata } from "next";
+import { SessionProvider } from "next-auth/react";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "OnBoarding / Threads",
+  title: "OnBoarding - Threads",
   description: "onboarding",
 };
 
-export default function Onboardinglayout({
+export default async function Onboardinglayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const session = await auth();
   return (
-    <div className="w-full max-w-[1100px] h-auto min-h-screen mx-auto flex items-center justify-center">
-      {children}
-    </div>
+    <SessionProvider session={session}>
+      <div className="w-full max-w-[1100px] h-auto min-h-screen mx-auto flex items-center justify-center">
+        {children}
+      </div>
+    </SessionProvider>
   );
 }

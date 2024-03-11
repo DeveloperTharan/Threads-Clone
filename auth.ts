@@ -44,7 +44,7 @@ export const {
       }
 
       if (token.type && session.user) {
-        session.user.type = token.role as AccountType;
+        session.user.type = token.type as AccountType;
       }
 
       if (session.user) {

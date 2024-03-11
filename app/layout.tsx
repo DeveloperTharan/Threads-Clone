@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import "./globals.css";
 import { UiProviders } from "@/provider/ui-provider";
+import { Toaster } from "react-hot-toast";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -32,6 +33,17 @@ export default function RootLayout({
     <html lang="en" className="dark">
       <body className={roboto.className}>
         <UiProviders>{children}</UiProviders>
+        <Toaster
+          position="top-right"
+          gutter={24}
+          toastOptions={{
+            style: {
+              color: '#ffffff',
+              background: '#000000',
+              borderRadius: '20px'
+            },
+          }}
+        />
       </body>
     </html>
   );
