@@ -9,7 +9,7 @@ import { FormSuccess } from "../form-success";
 import { Button, Input, Link } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forgetPassword } from "@/actions/forget-password";
-import { forgetPasswordSchema as formSchema } from "@/schema/schema";
+import { forgetPasswordSchema as formSchema } from "@/schema/auth-schema";
 
 export const ForgetPasswordForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);

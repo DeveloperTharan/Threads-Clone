@@ -4,7 +4,7 @@ import * as z from "zod";
 import { getUserByEmail } from "@/data/user";
 import { sendPasswordResetEmail } from "@/lib/mail";
 import { generatePasswordResetToken } from "@/data/tokens";
-import { forgetPasswordSchema } from "@/schema/schema";
+import { forgetPasswordSchema } from "@/schema/auth-schema";
 
 export const forgetPassword = async (
   values: z.infer<typeof forgetPasswordSchema>

@@ -9,7 +9,7 @@ import { SignIn } from "@/actions/sign-in";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormError } from "@/components/auth/form-error";
 import { FormSuccess } from "@/components/auth/form-success";
-import { signInSchema as formSchema } from "@/schema/schema";
+import { signInSchema as formSchema } from "@/schema/auth-schema";
 
 import { Eye, EyeOff } from "lucide-react";
 import { Button, Input } from "@nextui-org/react";
