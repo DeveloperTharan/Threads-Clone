@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { redirect, useRouter, useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 
+import { Link } from "@nextui-org/react";
 import { FormError } from "../form-error";
 import { BeatLoader } from "react-spinners";
 import { CardWrapper } from "../card-wrapper";
 import { FormSuccess } from "../form-success";
-import { Link } from "@nextui-org/react";
 import { newVerification } from "@/actions/new-verification";
 
 export const NewVerification = () => {

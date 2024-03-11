@@ -1,17 +1,17 @@
 "use client";
 
 import React, { useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 import * as z from "zod";
 import { FormError } from "../form-error";
 import { useForm } from "react-hook-form";
+import { Eye, EyeOff } from "lucide-react";
 import { FormSuccess } from "../form-success";
-import { Button, Input, Link } from "@nextui-org/react";
 import { newPassword } from "@/actions/new-password";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { newPasswordShema as formSchema } from "../schema";
-import { useRouter, useSearchParams } from "next/navigation";
-import { Eye, EyeOff } from "lucide-react";
+import { Button, Input, Link } from "@nextui-org/react";
+import { newPasswordShema as formSchema } from "@/schema/schema";
 
 export const NewPasswordForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
