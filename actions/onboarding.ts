@@ -1,10 +1,10 @@
 "use server";
 
 import { z } from "zod";
-import { onboardingProfileschema } from "@/schema/onboarding-schema";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { getUserByName } from "@/data/user";
+import { onboardingProfileschema } from "@/schema/onboarding-schema";
 
 export const onBoardingProfile = async (
   values: z.infer<typeof onboardingProfileschema>
