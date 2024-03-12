@@ -19,11 +19,11 @@ import {
   Select,
   SelectItem,
 } from "@nextui-org/react";
-import { FileUploder } from "../models/file-uploder";
 import { VscEdit } from "react-icons/vsc";
-import IconPicker from "../utils/icon-picker";
-import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
+import IconPicker from "../utils/icon-picker";
+import { FileUploder } from "../models/file-uploder";
+import { usePathname, useRouter } from "next/navigation";
 
 interface UserDataUpdateFormProps {
   initialdata:
@@ -58,24 +58,29 @@ export const UserDataUpdateForm = ({
   const { errors } = form.formState;
 
   const router = useRouter();
+  const pathname = usePathname();
   const { update } = useSession();
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     startTransition(() => {
-      userDataUpdate(values).then((data) => {
-        if (data.success) {
-          toast.success(data.success || "Profile updated!");
-          update();
-          router.push("/onboarding/account/type");
-        }
-        if (data.error) toast.error(data.error || "Profile update error!");
-      });
+      userDataUpdate(values)
+        .then((data) => {
+          if (data.success) {
+            toast.success(data.success || "Profile updated!");
+            update();
+            if (pathname === "/onboarding/profile") {
+              router.push("/onboarding/account/type");
+            }
+          }
+          if (data.error) toast.error(data.error || "Profile update error!");
+        })
+        .finally(() => router.refresh());
     });
   };
 
   return (
     <form
-      className="w-full flex flex-col space-y-8"
+      className="w-full flex flex-col space-y-8 pb-4"
       onSubmit={form.handleSubmit(onSubmit)}
     >
       <div className="w-full flex flex-row items-start gap-x-8">

@@ -1,7 +1,8 @@
 import React from "react";
-import { AccoundTypeForm } from "@/components/user-update/accound-type";
+import { AccoundTypeForm } from "@/components/user/accound-type";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
+import { getUserById } from "@/data/user";
 
 export default async function AccountTypePage() {
   const session = await auth();
@@ -10,11 +11,7 @@ export default async function AccountTypePage() {
 
   const { user } = session;
 
-  const profile = await db.user.findUnique({
-    where: {
-      id: user.id,
-    },
-  });
+  const profile = await getUserById(user.id!);
 
   return (
     <>

@@ -2,7 +2,7 @@ import React from "react";
 
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
-import { UserDataUpdateForm } from "@/components/user-update/user-data-update";
+import { UserDataUpdateForm } from "@/components/user/user-data-update";
 
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 
