@@ -4,6 +4,7 @@ import { z } from "zod";
 import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { getUserByName } from "@/data/user";
+import { AccountType } from "@prisma/client";
 import { onboardingProfileschema } from "@/schema/onboarding-schema";
 
 export const onBoardingProfile = async (
@@ -24,7 +25,7 @@ export const onBoardingProfile = async (
     }
   }
 
-  const res = await db.user.update({
+  await db.user.update({
     where: {
       id: user.id,
     },
@@ -33,7 +34,26 @@ export const onBoardingProfile = async (
     },
   });
 
-  console.log(res);
-
   return { success: "Profile Updated!" };
+};
+
+export const onBoardingAccountType = async (accountType: AccountType) => {
+  const session = await auth();
+
+  if (!session) return { error: "Unauthorized" };
+  if (!accountType || accountType == undefined)
+    return { error: "Invalid data!" };
+
+  const { user } = session;
+
+  await db.user.update({
+    where: {
+      id: user.id,
+    },
+    data: {
+      accountType,
+    },
+  });
+
+  return { success: "Account Type Updated!" };
 };

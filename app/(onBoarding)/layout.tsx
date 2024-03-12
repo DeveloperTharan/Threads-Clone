@@ -16,7 +16,7 @@ export default async function Onboardinglayout({
   const session = await auth();
   return (
     <SessionProvider session={session}>
-      <div className="w-full max-w-[1100px] h-auto min-h-screen mx-auto flex items-center justify-center">
+      <div className="w-full max-w-[1100px] h-full mx-auto">
         {children}
       </div>
     </SessionProvider>

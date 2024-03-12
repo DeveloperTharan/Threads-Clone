@@ -28,8 +28,8 @@ export default async function OnBoardingPage() {
   ]);
 
   return (
-    <>
+    <div className="w-full h-full flex items-center justify-center">
       <OnboardingUserForm initialdata={profile} gender={gender} />
-    </>
+    </div>
   );
 }
