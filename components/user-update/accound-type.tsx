@@ -1,13 +1,14 @@
 "use client";
 
-import { onBoardingAccountType } from "@/actions/onboarding";
-import { Button, Link, cn } from "@nextui-org/react";
-import { AccountType } from "@prisma/client";
-import { ArrowLeft } from "lucide-react";
-import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import React, { useState, useTransition } from "react";
+
 import toast from "react-hot-toast";
+import { ArrowLeft } from "lucide-react";
+import { AccountType } from "@prisma/client";
+import { Button, Link, cn } from "@nextui-org/react";
+import { userAccountType } from "@/actions/user-update";
 
 export const AccoundTypeForm = ({
   accountType,
@@ -23,7 +24,7 @@ export const AccoundTypeForm = ({
 
   const onSubmit = () => {
     startTransition(() => {
-      onBoardingAccountType(type!).then((data) => {
+      userAccountType(type!).then((data) => {
         if (data.success) {
           toast.success(data.success || "Profile updated!");
           update();

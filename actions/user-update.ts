@@ -5,10 +5,10 @@ import { db } from "@/lib/db";
 import { auth } from "@/auth";
 import { getUserByName } from "@/data/user";
 import { AccountType } from "@prisma/client";
-import { onboardingProfileschema } from "@/schema/onboarding-schema";
+import { userUpdateSchema } from "@/schema/user-update-schema";
 
-export const onBoardingProfile = async (
-  values: z.infer<typeof onboardingProfileschema>
+export const userDataUpdate = async (
+  values: z.infer<typeof userUpdateSchema>
 ) => {
   const session = await auth();
 
@@ -37,7 +37,7 @@ export const onBoardingProfile = async (
   return { success: "Profile Updated!" };
 };
 
-export const onBoardingAccountType = async (accountType: AccountType) => {
+export const userAccountType = async (accountType: AccountType) => {
   const session = await auth();
 
   if (!session) return { error: "Unauthorized" };

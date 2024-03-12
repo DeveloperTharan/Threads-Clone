@@ -1,6 +1,6 @@
 import * as z from "zod";
 
-export const onboardingProfileschema = z.object({
+export const userUpdateSchema = z.object({
   user_name: z
     .string()
     .min(4, {

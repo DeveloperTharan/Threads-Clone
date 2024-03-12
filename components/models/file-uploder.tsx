@@ -9,10 +9,10 @@ import {
   ModalBody,
   ModalFooter,
   Button,
-  Spinner,
   cn,
 } from "@nextui-org/react";
 
+import { Spinner } from "../ui/spinner";
 import { SlCloudUpload } from "react-icons/sl";
 import { useEdgeStore } from "@/provider/edgestore";
 

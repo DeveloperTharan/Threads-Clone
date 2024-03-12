@@ -1,5 +1,5 @@
 import React from "react";
-import { AccoundTypeForm } from "@/components/onboarding/accound-type";
+import { AccoundTypeForm } from "@/components/user-update/accound-type";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
 
