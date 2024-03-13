@@ -1,9 +1,13 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
-import "./globals.css";
-import { UiProviders } from "@/provider/ui-provider";
+
 import { Toaster } from "react-hot-toast";
+import { Providers } from "@/provider/provider";
 import { EdgeStoreProvider } from "@/provider/edgestore";
+
+import { auth } from "@/auth";
+import { SessionProvider } from "next-auth/react";
 
 const roboto = Roboto({
   weight: ["400", "700"],
@@ -25,29 +29,32 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
   return (
-    <html lang="en" className="dark">
-      <body className={roboto.className}>
-        <UiProviders>
-          <EdgeStoreProvider>{children}</EdgeStoreProvider>
-        </UiProviders>
-        <Toaster
-          position="top-right"
-          gutter={24}
-          toastOptions={{
-            style: {
-              color: "#ffffff",
-              background: "#000000",
-              borderRadius: "20px",
-            },
-          }}
-        />
-      </body>
-    </html>
+    <SessionProvider session={session}>
+      <html lang="en" className="dark">
+        <body className={roboto.className}>
+          <Providers>
+            <EdgeStoreProvider>{children}</EdgeStoreProvider>
+          </Providers>
+          <Toaster
+            position="top-right"
+            gutter={24}
+            toastOptions={{
+              style: {
+                color: "#ffffff",
+                background: "#000000",
+                borderRadius: "20px",
+              },
+            }}
+          />
+        </body>
+      </html>
+    </SessionProvider>
   );
 }

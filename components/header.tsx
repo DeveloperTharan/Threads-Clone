@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 
 import { SignOut } from "@/actions/sign-out";
 import { useCurrentUser } from "@/hooks/use-current-user";
-/* import { CreateThreadModel } from "./model/create-thread"; */
+import { CreateThreadModel } from "./models/create-threads";
 
 import { PiHeart } from "react-icons/pi";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -43,11 +43,6 @@ export const Header = () => {
     };
   }, []);
 
-  const handleSignOut = () => {
-    SignOut();
-    return router.push("/auth/sign-in");
-  };
-
   return (
     <nav
       className={cn(
@@ -83,15 +78,11 @@ export const Header = () => {
               )}
             />
           </button>
-          {/* <CreateThreadModel
-            Open={Open}
-            setOpen={setOpen}
-            onClick={() => setOpen(!Open)}
-          > */}
-          <div className="btn">
-            <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
-          </div>
-          {/* </CreateThreadModel> */}
+          <CreateThreadModel isOpen={Open} setIsOpen={setOpen}>
+            <div className="btn">
+              <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
+            </div>
+          </CreateThreadModel>
           <button className="btn" onClick={() => router.push("/activity")}>
             <PiHeart
               size={24}
@@ -113,7 +104,10 @@ export const Header = () => {
             />
           </button>
         </div>
-        <Dropdown>
+        <Dropdown
+          className="bg-transparent border border-neutral-700 rounded-lg"
+          placement="bottom-end"
+        >
           <DropdownTrigger>
             <Button className="bg-transparent border-none min-w-unit-10">
               <RiMenu4Fill
@@ -134,7 +128,7 @@ export const Header = () => {
               key="logout"
               className="text-danger"
               color="danger"
-              onClick={handleSignOut}
+              onClick={() => SignOut()}
             >
               Log Out
             </DropdownItem>

@@ -53,18 +53,18 @@ model Gender {
 }
 
 model VerificationToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
 }
 
 model PasswordResetToken {
-  id String @id @default(cuid())
-  email String
-  token String @unique
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
   expires DateTime
 
   @@unique([email, token])
@@ -87,12 +87,11 @@ model Follows {
 }
 
 model Threads {
-  id          String  @unique @default(cuid())
-  userId      String
-  authuserId  String
-  assert      String?
-  description String?
-  threadUrl   String? @unique
+  id        String  @unique @default(cuid())
+  userId    String
+  body      String?
+  assert    String?
+  threadUrl String? @unique
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -113,7 +112,7 @@ model Likes {
   thread   Threads @relation(fields: [threadId], references: [id], onDelete: Cascade)
 
   userId String
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createAt DateTime @default(now())
 
