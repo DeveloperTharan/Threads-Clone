@@ -13,6 +13,7 @@ import { signInSchema as formSchema } from "@/schema/auth-schema";
 
 import { Eye, EyeOff } from "lucide-react";
 import { Button, Input } from "@nextui-org/react";
+import { Spinner } from "@/components/ui/spinner";
 
 export const SignInForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -110,7 +111,7 @@ export const SignInForm = () => {
         className="w-full"
         disabled={isPending}
       >
-        SignIn
+        {isPending ? <Spinner size={"lg"} /> : 'SignIn' }
       </Button>
     </form>
   );

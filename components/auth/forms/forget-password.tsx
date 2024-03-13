@@ -10,6 +10,7 @@ import { Button, Input, Link } from "@nextui-org/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { forgetPassword } from "@/actions/forget-password";
 import { forgetPasswordSchema as formSchema } from "@/schema/auth-schema";
+import { Spinner } from "@/components/ui/spinner";
 
 export const ForgetPasswordForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -65,7 +66,7 @@ export const ForgetPasswordForm = () => {
         className="w-full"
         disabled={isPending}
       >
-        Sent
+        {isPending ? <Spinner size={"lg"} /> : "Sent"}
       </Button>
       <Link href="/auth/sign-in" className="text-sm mx-auto">
         Back to login

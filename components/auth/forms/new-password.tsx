@@ -12,6 +12,7 @@ import { newPassword } from "@/actions/new-password";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, Link } from "@nextui-org/react";
 import { newPasswordShema as formSchema } from "@/schema/auth-schema";
+import { Spinner } from "@/components/ui/spinner";
 
 export const NewPasswordForm = () => {
   const [error, setError] = useState<string | undefined>(undefined);
@@ -100,7 +101,7 @@ export const NewPasswordForm = () => {
         className="w-full"
         disabled={isPending}
       >
-        Update
+        {isPending ? <Spinner size={"lg"} /> : 'Update' }
       </Button>
       <Link href="/auth/sign-in" className="text-sm mx-auto">
         Back to login
