@@ -6,6 +6,7 @@ import { signInSchema } from "@/schema/auth-schema";
 import { getUserByName } from "./data/user";
 
 export default {
+  trustHost: true,
   providers: [
     credentials({
       async authorize(credentials) {
