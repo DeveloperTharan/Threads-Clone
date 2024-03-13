@@ -5,6 +5,8 @@ import { auth } from "@/auth";
 import { db } from "@/lib/db";
 import { createThreadsSchema } from "@/schema/threads-schema";
 
+const domain = process.env.NEXT_PUBLIC_APP_URL;
+
 export const createThread = async (
   values: z.infer<typeof createThreadsSchema>
 ) => {
@@ -16,11 +18,25 @@ export const createThread = async (
   const { user } = session;
   const { body, assert } = values;
 
-  await db.threads.create({
+  const res = await db.threads.create({
     data: {
       userId: user.id!,
       body,
       assert,
+    },
+    include: {
+      user: true,
+    },
+  });
+
+  const threadUrl = `${domain}/threads/${res.user.id}?id=${res.id}`;
+
+  await db.threads.update({
+    where: {
+      id: res.id,
+    },
+    data: {
+      threadUrl,
     },
   });
 
