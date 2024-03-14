@@ -109,7 +109,7 @@ export const Header = () => {
           placement="bottom-end"
         >
           <DropdownTrigger>
-            <Button className="bg-transparent border-none min-w-unit-10">
+            <Button className="bg-background border-none min-w-unit-10">
               <RiMenu4Fill
                 size={28}
                 className="text-neutral-500 hover:text-neutral-100 cursor-pointer"
