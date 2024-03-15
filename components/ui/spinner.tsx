@@ -2,7 +2,7 @@ import { RiLoader2Fill } from "react-icons/ri";
 
 import { cva, type VariantProps } from "class-variance-authority";
 
-import { cn } from "@/lib/utils";
+import { cn } from "@nextui-org/react";
 
 const spinnerVariants = cva("text-muted-foreground animate-spin", {
   variants: {

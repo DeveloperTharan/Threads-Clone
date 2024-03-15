@@ -1,19 +1,17 @@
 import React from "react";
 
-import { BottomBar } from "@/components/bottom-bar";
 import { Header } from "@/components/header";
+import { BottomBar } from "@/components/bottom-bar";
 
-export default function Mainlayout({
+export default async function Mainlayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full h-full max-w-[1300px] md:px-24 mx-auto">
+    <div className="w-full max-w-[900px] h-full mx-auto">
       <Header />
-      <div className="h-[calc(100%-4rem)] w-full md:w-5/6 lg:w-1/2 px-4 mx-auto">
-        {children}
-      </div>
+      {children}
       <BottomBar />
     </div>
   );

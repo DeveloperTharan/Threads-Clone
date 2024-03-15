@@ -1,10 +1,12 @@
 "use client";
 
+import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import Image from "next/image";
 
-import { cn } from "@/lib/utils";
+import { SignOut } from "@/actions/sign-out";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { CreateThreadModel } from "./models/create-threads";
 
 import { PiHeart } from "react-icons/pi";
 import { FaArrowLeft } from "react-icons/fa6";
@@ -13,27 +15,25 @@ import { IoPersonOutline } from "react-icons/io5";
 import { RiMenu4Fill, RiSearchLine, RiShareCircleLine } from "react-icons/ri";
 
 import {
+  cn,
+  Button,
+  Dropdown,
+  DropdownTrigger,
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { useAuth } from "@clerk/nextjs";
-import { useUser } from "@/context/user-context";
-import { CreateThreadModel } from "./model/create-thread";
+  DropdownItem,
+} from "@nextui-org/react";
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
   const [Open, setOpen] = useState<boolean>(false);
 
   const router = useRouter();
+  const user = useCurrentUser();
   const pathname = usePathname();
-  const { signOut } = useAuth();
-  const { User } = useUser();
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY >  80);
+      setIsScrolled(window.scrollY > 80);
     };
 
     window.addEventListener("scroll", handleScroll);
@@ -43,11 +43,6 @@ export const Header = () => {
     };
   }, []);
 
-  const handleSignOut = () => {
-    signOut();
-    return router.push("/sign-in");
-  };
-
   return (
     <nav
       className={cn(
@@ -56,14 +51,14 @@ export const Header = () => {
       )}
     >
       <div className="flex flex-row justify-between items-center">
-        <Image src={"/logo.svg"} alt="logo" width={60} height={60} />
+        <Image src={"/logo.svg"} alt="logo" width={35} height={35} />
         <div className="hidden md:flex flex-row gap-x-5 justify-center items-center">
           <FaArrowLeft
             size={20}
             className={cn(
-              "hidden text-neutral-500",
-              pathname !== "/" &&
-                "block hover:text-neutral-100 cursor-pointer mt-2"
+              pathname !== "/"
+                ? "block text-neutral-500 hover:text-neutral-100 cursor-pointer mt-2"
+                : "hidden text-neutral-500"
             )}
             onClick={() => router.back()}
           />
@@ -71,8 +66,7 @@ export const Header = () => {
             <GrHomeRounded
               size={24}
               className={cn(
-                "text-neutral-500",
-                pathname === "/" && "text-neutral-100"
+                pathname === "/" ? "text-neutral-100" : "text-neutral-500"
               )}
             />
           </button>
@@ -80,16 +74,11 @@ export const Header = () => {
             <RiSearchLine
               size={24}
               className={cn(
-                "text-neutral-500",
-                pathname === "/search" && "text-neutral-100"
+                pathname === "/search" ? "text-neutral-100" : "text-neutral-500"
               )}
             />
           </button>
-          <CreateThreadModel
-            Open={Open}
-            setOpen={setOpen}
-            onClick={() => setOpen(!Open)}
-          >
+          <CreateThreadModel isOpen={Open} setIsOpen={setOpen}>
             <div className="btn">
               <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
             </div>
@@ -98,42 +87,53 @@ export const Header = () => {
             <PiHeart
               size={24}
               className={cn(
-                "text-neutral-500",
-                pathname === "/ativity" && "text-neutral-100"
+                pathname === "/activity"
+                  ? "text-neutral-100"
+                  : "text-neutral-500"
               )}
             />
           </button>
-          <button className="btn" onClick={() => router.push(`/profile/${User?.id}`)}>
+          <button className="btn" onClick={() => router.push(`/${user?.name}`)}>
             <IoPersonOutline
               size={24}
               className={cn(
-                "text-neutral-500",
-                pathname === "/profile" && "text-neutral-100"
+                pathname === `/${user?.name}`
+                  ? "text-neutral-100"
+                  : "text-neutral-500"
               )}
             />
           </button>
         </div>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <RiMenu4Fill
-              size={28}
-              className="text-neutral-500 hover:text-neutral-100 cursor-pointer"
-            />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem
-              onClick={() => router.push(`/profile/settings/${User?.id}`)}
+        <Dropdown
+          className="bg-transparent border border-neutral-700 rounded-lg"
+          placement="bottom-end"
+        >
+          <DropdownTrigger>
+            <Button className="bg-background border-none min-w-unit-10">
+              <RiMenu4Fill
+                size={28}
+                className="text-neutral-500 hover:text-neutral-100 cursor-pointer"
+              />
+            </Button>
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Dynamic Actions">
+            <DropdownItem
+              onClick={() => router.push(`/profile/settings/${user?.id}`)}
+              key="settings"
             >
               Settings
-            </DropdownMenuItem>
-            <DropdownMenuItem>Report</DropdownMenuItem>
-            <DropdownMenuItem>
-              <span className="text-red-600" onClick={handleSignOut}>
-                Log Out
-              </span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownItem>
+            <DropdownItem key="report">Report</DropdownItem>
+            <DropdownItem
+              key="logout"
+              className="text-danger"
+              color="danger"
+              onClick={() => SignOut()}
+            >
+              Log Out
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
     </nav>
   );
