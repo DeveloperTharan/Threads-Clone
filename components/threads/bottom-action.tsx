@@ -1,14 +1,16 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
+
+import { cn } from "@nextui-org/react";
+import { useLiked } from "@/hooks/use-like";
+import { Command, Likes } from "@prisma/client";
+import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { GoHeart } from "react-icons/go";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { PiArrowsClockwise } from "react-icons/pi";
 import { IoChatbubblesOutline, IoHeartSharp } from "react-icons/io5";
-import { Command, Likes } from "@prisma/client";
-import { useCurrentUser } from "@/hooks/use-current-user";
-import { useLiked } from "@/hooks/use-like";
 
 interface ThreadBottomActionProps {
   thread_id: string;
@@ -34,21 +36,39 @@ export const ThreadBottomAction = ({
       {liked.liked ? (
         <IoHeartSharp
           size={30}
-          className="btn-icon text-rose-600"
+          className={cn(
+            "p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform active:scale-75 transition-transform",
+            liked.liked === true && "text-rose-600"
+          )}
           role="button"
           onClick={handleLike}
         />
       ) : (
         <GoHeart
           size={30}
-          className="btn-icon"
+          className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
+          active:scale-75 transition-transform"
           role="button"
           onClick={handleLike}
         />
       )}
-      <IoChatbubblesOutline size={30} className="btn-icon" role="button" />
-      <CiLocationArrow1 size={30} className="btn-icon" role="button" />
-      <PiArrowsClockwise size={30} className="btn-icon" />
+      <IoChatbubblesOutline
+        size={30}
+        className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
+        active:scale-75 transition-transform"
+        role="button"
+      />
+      <CiLocationArrow1
+        size={30}
+        className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
+        active:scale-75 transition-transform"
+        role="button"
+      />
+      <PiArrowsClockwise
+        size={30}
+        className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
+        active:scale-75 transition-transform"
+      />
     </div>
   );
 };
