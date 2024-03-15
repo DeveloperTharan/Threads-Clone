@@ -101,6 +101,7 @@ export const CreateThreadModel = ({
         size="lg"
         backdrop="blur"
         placement="center"
+        isDismissable={false}
       >
         <ModalContent>
           <ModalHeader className="flex flex-col gap-1">
@@ -140,7 +141,7 @@ export const CreateThreadModel = ({
                   }}
                 />
                 <FileUploder
-                  filetype=".jpeg, .png, .jpg, .gif, .webp, .svg"
+                  filetype=".jpeg, .png, .jpg, .gif,"
                   onSubmit={(url: string) => {
                     form.setValue("assert", url);
                     setValue((prev) => ({

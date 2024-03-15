@@ -40,16 +40,16 @@ export default async function Profile(params: { params: { profile: string } }) {
         <div className="w-full h-full md:w-[60%] mx-auto">
           <UserInfo userData={profileData} gender={gender} />
           <div
-            className={cn("h-full flex flex-col space-y-5 w-full",
+            className={cn(
+              "h-full flex flex-col space-y-5 w-full",
               profileData?.threads.length! > 0 && "pb-32 px-5 md:px-0"
             )}
           >
-            {profileData?.threads.length == 0 ||
-              (null && (
-                <p className="flex justify-center items-center w-full h-full text-neutral-500">
-                  No Threads
-                </p>
-              ))}
+            {profileData?.threads.length == 0 && (
+              <p className="flex justify-center items-center w-full text-neutral-500">
+                No Threads
+              </p>
+            )}
             {profileData?.threads.length! > 0 && (
               <>
                 {profileData?.threads.map((threads, index) => (
