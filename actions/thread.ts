@@ -86,3 +86,29 @@ const handleLikeCount = async (threadId: string) => {
     return { likeCount: null };
   }
 };
+
+export const commandThread = async (
+  threadId: string,
+  body: string,
+  parentId?: string
+) => {
+  const session = await auth();
+
+  if (!session) return { error: "Unauthorized" };
+  if (!body) return { error: "Invalid data!" };
+
+  const { user } = session;
+
+  const commandData = {
+    body,
+    threadId,
+    userId: user.id!,
+    ...(parentId && { parentId }),
+  };
+
+  await db.command.create({
+    data: commandData,
+  });
+
+  return { success: "command posted!" };
+};

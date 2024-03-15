@@ -1,7 +1,7 @@
 import { Command, User } from "@prisma/client";
 
-interface CommandNode extends Command {
-  user: User;
+export interface CommandNode extends Command {
+  user?: User;
   children?: CommandNode[];
 }
 

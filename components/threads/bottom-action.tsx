@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 import { cn } from "@nextui-org/react";
 import { useLiked } from "@/hooks/use-like";
@@ -11,6 +11,8 @@ import { GoHeart } from "react-icons/go";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { PiArrowsClockwise } from "react-icons/pi";
 import { IoChatbubblesOutline, IoHeartSharp } from "react-icons/io5";
+import CommandsModel from "../models/commands";
+import { StructureData } from "@/utils/structure-data";
 
 interface ThreadBottomActionProps {
   thread_id: string;
@@ -25,11 +27,17 @@ export const ThreadBottomAction = ({
   likes,
   commands,
 }: ThreadBottomActionProps) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
   const user = useCurrentUser();
+
   const isLiked = likes.some(
     (like) => like.userId === user?.id && like.threadId === thread_id
   );
+
   const { liked, handleLike } = useLiked(thread_id, like_count, isLiked);
+
+  const structuredCommands = StructureData(commands);
 
   return (
     <div className="w-full flex flex-row items-center justify-start gap-x-3 mt-2">
@@ -52,12 +60,19 @@ export const ThreadBottomAction = ({
           onClick={handleLike}
         />
       )}
-      <IoChatbubblesOutline
-        size={30}
-        className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
+      <CommandsModel
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        commands={structuredCommands}
+        thread_id={thread_id}
+      >
+        <IoChatbubblesOutline
+          size={30}
+          className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
         active:scale-75 transition-transform"
-        role="button"
-      />
+          role="button"
+        />
+      </CommandsModel>
       <CiLocationArrow1
         size={30}
         className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
