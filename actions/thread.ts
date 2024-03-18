@@ -32,7 +32,7 @@ export const createThread = async (
     },
   });
 
-  const threadUrl = `${domain}/threads/${res.user.id}?id=${res.id}`;
+  const threadUrl = `${domain}/threads/${res.id}?id=${res.user.id}`;
 
   await db.threads.update({
     where: {
@@ -123,7 +123,7 @@ export const deleteCommand = async (id: string) => {
 
   await DeleteCommandAndChildrens(db, id);
 
-  return { success: "Command Deleted Sucessfully" }
+  return { success: "Command Deleted Sucessfully" };
 };
 
 const DeleteCommandAndChildrens = async (
