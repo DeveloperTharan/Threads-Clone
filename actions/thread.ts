@@ -148,3 +148,20 @@ const DeleteCommandAndChildrens = async (
     },
   });
 };
+
+export const deleteThread = async (id: string) => {
+  const session = await auth();
+
+  if (!session) return { error: "Unauthorized" };
+  if (!id) return { error: "Invalid data!" };
+
+  await db.threads.delete({
+    where: { id },
+    include: {
+      likes: true,
+      command: true,
+    },
+  });
+
+  return { success: "Thread Deleted!" };
+};

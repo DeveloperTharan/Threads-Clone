@@ -141,7 +141,7 @@ export const CreateThreadModel = ({
                   }}
                 />
                 <FileUploder
-                  filetype=".jpeg, .png, .jpg, .gif,"
+                  filetype=".jpeg, .png, .jpg, .gif, .svg"
                   onSubmit={(url: string) => {
                     form.setValue("assert", url);
                     setValue((prev) => ({
