@@ -75,6 +75,7 @@ export const ThreadUi = ({ userData, threadData }: ThreadUiProps) => {
           like_count={threadData.like_count}
           likes={threadData.likes}
           commands={threadData.commands}
+          thread_url={threadData.thread_url}
         />
         <p className="text-sm text-neutral-700">{threadData.like_count} likes</p>
       </div>
