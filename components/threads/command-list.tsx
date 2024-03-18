@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
@@ -11,6 +10,7 @@ import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { IoMdHeartEmpty, IoIosHeart } from "react-icons/io";
 import { deleteCommand } from "@/actions/thread";
+import { Avatar } from "@nextui-org/react";
 
 interface CommandListProps {
   level?: number;
@@ -59,13 +59,11 @@ export const CommandsList = ({
             }}
             key={index}
           >
-            <Image
+            <Avatar
               src={data?.user?.image || ""}
               alt={data?.user?.user_name || ""}
               title={data?.user?.user_name}
-              width={30}
-              height={30}
-              className="rounded-full cursor-pointer"
+              size={"md"}
             />
             <div className="w-full h-full flex flex-col items-start justify-start gap-y-1">
               <div className="w-full flex flex-row items-center justify-between">

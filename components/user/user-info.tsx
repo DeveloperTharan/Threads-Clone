@@ -1,12 +1,11 @@
 import React from "react";
-import Image from "next/image";
 import { redirect } from "next/navigation";
 
+import { auth } from "@/auth";
+import { EditProfile } from "../models/edit-profile";
 import { Gender, Follows, User } from "@prisma/client";
 
-import { Button } from "@nextui-org/react";
-import { EditProfile } from "../models/edit-profile";
-import { auth } from "@/auth";
+import { Avatar, Button } from "@nextui-org/react";
 
 interface UserDataProps {
   userData:
@@ -51,13 +50,11 @@ export const UserInfo = async ({ userData, gender }: UserDataProps) => {
           </div>
         </div>
         <div className="w-fit h-fit relative">
-          <Image
+          <Avatar
             src={userData?.image || ""}
             alt={userData?.user_name || ""}
             title={userData?.user_name}
-            width={100}
-            height={100}
-            className="rounded-full"
+            className="h-28 w-28"
           />
           <div className="absolute bottom-0 right-0">
             {userData?.status === null ? "" : userData?.status}

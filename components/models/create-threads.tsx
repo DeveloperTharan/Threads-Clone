@@ -116,7 +116,7 @@ export const CreateThreadModel = ({
                   title={user?.name!}
                   width={50}
                   height={50}
-                  className="rounded-full cursor-pointer"
+                  className="rounded-full object-cover cursor-pointer"
                   onClick={() => router.push(`/${user.name}`)}
                 />
                 <span className="font-semibold text-neutral-300">

@@ -108,6 +108,7 @@ export const UserDataUpdateForm = ({
             onSubmit={(url: string) => {
               form.setValue("image", url);
               setUpdatedImage(url);
+              router.refresh();
             }}
           >
             <div
