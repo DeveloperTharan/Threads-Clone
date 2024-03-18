@@ -4,15 +4,15 @@ import React, { useState } from "react";
 
 import { cn } from "@nextui-org/react";
 import { useLiked } from "@/hooks/use-like";
+import CommandsModel from "../models/commands";
 import { Command, Likes } from "@prisma/client";
+import { StructureData } from "@/utils/structure-data";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { GoHeart } from "react-icons/go";
 import { CiLocationArrow1 } from "react-icons/ci";
 import { PiArrowsClockwise } from "react-icons/pi";
 import { IoChatbubblesOutline, IoHeartSharp } from "react-icons/io5";
-import CommandsModel from "../models/commands";
-import { StructureData } from "@/utils/structure-data";
 
 interface ThreadBottomActionProps {
   thread_id: string;
@@ -63,8 +63,9 @@ export const ThreadBottomAction = ({
       <CommandsModel
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        commands={structuredCommands}
         thread_id={thread_id}
+        structuredCommands={structuredCommands}
+        un_structuredCommands={commands}
       >
         <IoChatbubblesOutline
           size={30}

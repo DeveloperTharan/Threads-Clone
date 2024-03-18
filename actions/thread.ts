@@ -3,8 +3,10 @@
 import { z } from "zod";
 import { auth } from "@/auth";
 import { db } from "@/lib/db";
-import { createThreadsSchema } from "@/schema/threads-schema";
 import { getTHreadById } from "@/data/thread";
+import { Prisma, PrismaClient } from "@prisma/client";
+import { createThreadsSchema } from "@/schema/threads-schema";
+import { DefaultArgs } from "@prisma/client/runtime/library";
 
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 
@@ -111,4 +113,38 @@ export const commandThread = async (
   });
 
   return { success: "command posted!" };
+};
+
+export const deleteCommand = async (id: string) => {
+  const session = await auth();
+
+  if (!session) return { error: "Unauthorized" };
+  if (!id) return { error: "Invalid data!" };
+
+  await DeleteCommandAndChildrens(db, id);
+
+  return { success: "Command Deleted Sucessfully" }
+};
+
+const DeleteCommandAndChildrens = async (
+  db: PrismaClient<Prisma.PrismaClientOptions, never, DefaultArgs>,
+  commandId: string
+) => {
+  // Find all children of the current command
+  const children = await db.command.findMany({
+    where: {
+      parentId: commandId,
+    },
+  });
+
+  // Recursively delete each child command
+  for (const child of children) {
+    await DeleteCommandAndChildrens(db, child.id);
+  }
+
+  await db.command.delete({
+    where: {
+      id: commandId,
+    },
+  });
 };

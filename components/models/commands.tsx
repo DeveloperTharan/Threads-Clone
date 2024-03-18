@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useEffect, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 import {
   Modal,
@@ -13,18 +14,20 @@ import {
 } from "@nextui-org/react";
 import { CommandNode } from "@/utils/structure-data";
 
-import { BsSend } from "react-icons/bs";
-import { PiChatsCircleDuotone } from "react-icons/pi";
 import { Spinner } from "../ui/spinner";
 import { commandThread } from "@/actions/thread";
-import { useRouter } from "next/navigation";
 import { CommandsList } from "../threads/command-list";
+
+import { BsSend } from "react-icons/bs";
+import { PiChatsCircleDuotone } from "react-icons/pi";
+import { X } from "lucide-react";
 
 interface CommandsModelProps {
   isOpen: boolean;
   thread_id: string;
-  commands: CommandNode[];
   children: React.ReactNode;
+  structuredCommands: CommandNode[];
+  un_structuredCommands: CommandNode[];
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -32,14 +35,24 @@ export default function CommandsModel({
   children,
   isOpen,
   setIsOpen,
-  commands,
   thread_id,
+  structuredCommands,
+  un_structuredCommands,
 }: CommandsModelProps) {
   const [value, setValue] = useState<string | undefined>(undefined);
   const [parentId, setParentId] = useState<string | undefined>(undefined);
-  const [replayTo, setReplayTo] = useState<string | undefined>(undefined)
+  const [replayTo, setReplayTo] = useState<string | undefined>(undefined);
 
   const [isPending, startTransition] = useTransition();
+
+  useEffect(() => {
+    if (parentId !== undefined) {
+      const replayToUser = un_structuredCommands.find(
+        (data) => data.id === parentId
+      );
+      setReplayTo(replayToUser?.user?.user_name);
+    }
+  }, [parentId]);
 
   const router = useRouter();
 
@@ -79,24 +92,23 @@ export default function CommandsModel({
         backdrop="blur"
         placement="center"
       >
-        <ModalContent className="h-auto max-h-[70%] w-full overflow-auto">
+        <ModalContent className="h-[75%] w-full overflow-auto">
           <ModalHeader>Commands!</ModalHeader>
           <ModalBody>
-            {commands.length == 0 && (
+            {structuredCommands.length == 0 && (
               <div className="h-full flex flex-col space-y-2 items-center justify-center">
                 <PiChatsCircleDuotone size={100} className="text-neutral-600" />
                 <p className="text-sm text-neutral-600">No commands...</p>
               </div>
             )}
-            {commands == undefined && (
+            {structuredCommands == undefined && (
               <div className="h-full flex items-center justify-center">
                 <Spinner size={"lg"} />
               </div>
             )}
             <CommandsList
-              commands={commands}
+              commands={structuredCommands}
               getParentId={handleParentId}
-              threadId={thread_id}
             />
           </ModalBody>
           <ModalFooter className="w-full flex flex-row items-center justify-center gap-x-4">
@@ -105,12 +117,32 @@ export default function CommandsModel({
               color="secondary"
               className="w-full"
               size="sm"
+              labelPlacement="outside"
               onChange={(e) => setValue(e.target.value)}
+              label={
+                replayTo !== undefined && (
+                  <div className="w-full flex items-center justify-between">
+                    <p>Replay to {replayTo}</p>
+                    <X
+                      size={12}
+                      className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 
+                      transform active:scale-75 transition-transform"
+                      role="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+
+                        setParentId(undefined);
+                        setReplayTo(undefined);
+                      }}
+                    />
+                  </div>
+                )
+              }
             />
             <Button
               variant="solid"
               color={isDisabled ? "default" : "secondary"}
-              size="lg"
+              size="sm"
               isDisabled={isDisabled}
               onClick={onSubmit}
             >

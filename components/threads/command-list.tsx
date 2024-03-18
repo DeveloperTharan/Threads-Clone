@@ -1,31 +1,31 @@
 "use client";
 
-import React, { useState } from "react";
 import Image from "next/image";
+import React, { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
+import toast from "react-hot-toast";
 import { timeSince } from "@/utils/time-since";
-import { Command, User } from "@prisma/client";
+import { CommandNode } from "@/utils/structure-data";
 import { useCurrentUser } from "@/hooks/use-current-user";
 
 import { IoMdHeartEmpty, IoIosHeart } from "react-icons/io";
-import { useRouter } from "next/navigation";
-import { cn } from "@nextui-org/react";
-import { CommandNode } from "@/utils/structure-data";
+import { deleteCommand } from "@/actions/thread";
 
 interface CommandListProps {
+  level?: number;
   commands: CommandNode[];
   getParentId: (id: string) => void;
-  level?: number;
-  threadId?: string;
 }
 
 export const CommandsList = ({
+  level = 0,
   commands,
   getParentId,
-  level = 0,
-  threadId,
 }: CommandListProps) => {
   const [expand, setExpand] = useState<Record<string, boolean>>({});
+
+  const [isPending, startTransition] = useTransition();
 
   const user = useCurrentUser();
   const router = useRouter();
@@ -37,88 +37,85 @@ export const CommandsList = ({
     }));
   };
 
-  const onDelete = async (id: string) => {};
+  const onDelete = async (id: string) => {
+    startTransition(() => {
+      deleteCommand(id)
+        .then((data) => {
+          if (data.success) toast.success(data.success);
+          if (data.error) toast.error(data.error);
+        })
+        .finally(() => router.refresh());
+    });
+  };
 
   return (
-    <div className="w-full h-full flex flex-col justify-start items-start gap-4">
+    <div className="w-full h-fit flex flex-col items-start justify-start space-y-4">
       {commands.map((data, index) => (
         <>
           <div
-            className={cn("w-full h-fit")}
+            className="w-full h-fit flex flex-row items-start justify-start gap-2"
             style={{
-              paddingLeft: level ? `${level * 40 + 25}px` : undefined,
+              paddingLeft: level ? `${level * 25 * 2}px` : undefined,
             }}
             key={index}
           >
-            <div className="w-full flex flex-row justify-between items-center">
-              <div className="flex flex-row w-full justify-start gap-x-4">
-                <Image
-                  src={data?.user?.image || ""}
-                  alt={data?.user?.user_name || ""}
-                  title={data?.user?.user_name}
-                  width={45}
-                  height={45}
-                  className="rounded-full cursor-pointer"
-                />
-                <span className="text-lg">{data?.user?.user_name}</span>
+            <Image
+              src={data?.user?.image || ""}
+              alt={data?.user?.user_name || ""}
+              title={data?.user?.user_name}
+              width={30}
+              height={30}
+              className="rounded-full cursor-pointer"
+            />
+            <div className="w-full h-full flex flex-col items-start justify-start gap-y-1">
+              <div className="w-full flex flex-row items-center justify-between">
+                <h3 className="text-sm text-neutral-300 font-medium">
+                  {data.user?.user_name}
+                </h3>
+                <p className="text-sm text-neutral-600">
+                  {timeSince(data.createAt)}
+                </p>
               </div>
-              <p className="text-sm text-neutral-600">
-                {timeSince(data.createAt)}
-              </p>
-            </div>
-            <div className="w-full h-full flex flex-row gap-x-4 justify-start items-start mx-auto">
-              <div
-                className={cn(
-                  "h-full w-[1px] bg-neutral-700 mx-[20px] flex-shrink-0",
-                  {
-                    "opacity-0": index === commands.length - 1,
-                  }
+              <div className="w-full flex flex-row items-center justify-between">
+                <p className="text-xs text-neutral-400">{data.body}</p>
+                <IoMdHeartEmpty
+                  size={16}
+                  className=""
+                  role="button"
+                  onClick={() => {}}
+                />
+              </div>
+              <div className="relative h-[1px] w-full bg-neutral-700 mt-2">
+                {data.user?.id !== user?.id && (
+                  <button
+                    className="absolute -top-1.5 left-6 text-[10px] bg-neutral-700 rounded-lg px-1 
+                  hover:bg-neutral-700/60"
+                    onClick={() => getParentId && getParentId(data.id)}
+                  >
+                    Replay
+                  </button>
                 )}
-              />
-              <div className="flex flex-col justify-start items-start ml-2 w-full gap-3">
-                <div className="w-full h-full flex flex-row justify-between items-center">
-                  <p className="text-sm">{data.body}</p>
-                  <IoMdHeartEmpty
-                    size={16}
-                    className=""
-                    role="button"
-                    onClick={() => {}}
-                  />
-                </div>
-                <div className="w-full h-[1px] relative bg-neutral-700">
-                  {/* {data.userId !== user?.id && ( */}
-                    <div className="text-xs text-neutral-700 bg-neutral-950 absolute -top-2 left-10">
-                      <button
-                        className="hover:bg-neutral-900/50 rounded-full px-1"
-                        onClick={() => getParentId && getParentId(data.id)}
-                      >
-                        Replay
-                      </button>
-                    </div>
-                  {/* )} */}
-                  {/* {data.userId === user?.id && ( */}
-                    <div className="text-xs text-neutral-700 bg-neutral-950 absolute -top-2 left-32">
-                      <button
-                        className="hover:bg-neutral-900/50 rounded-full px-1"
-                        onClick={() => onDelete(data.id)}
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  {/* )} */}
-                  {data.children?.length! > 0 && (
-                    <div className="text-xs text-neutral-700 bg-neutral-950 absolute -top-2 left-28">
-                      <button
-                        className="hover:bg-neutral-900/50 rounded-full px-1"
-                        onClick={() => onExpand(data.id)}
-                      >
-                        {expand[data.id]
-                          ? "Hide"
-                          : `show ${data.children?.length} more`}
-                      </button>
-                    </div>
-                  )}
-                </div>
+                {data.user?.id === user?.id && (
+                  <button
+                    className="absolute -top-1.5 left-6 text-[10px] bg-neutral-700 rounded-lg px-1 
+                  hover:bg-neutral-700/60"
+                    onClick={() => onDelete(data.id)}
+                    disabled={isPending}
+                  >
+                    Delete
+                  </button>
+                )}
+                {data.children?.length! > 0 && (
+                  <button
+                    className="absolute -top-1.5 left-20 text-[10px] bg-neutral-700 rounded-lg px-1 
+                  hover:bg-neutral-700/60"
+                    onClick={() => onExpand(data.id)}
+                  >
+                    {expand[data.id]
+                      ? "Hide"
+                      : `show ${data.children?.length} more`}
+                  </button>
+                )}
               </div>
             </div>
           </div>
