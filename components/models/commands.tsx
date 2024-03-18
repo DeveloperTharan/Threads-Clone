@@ -52,7 +52,7 @@ export default function CommandsModel({
       );
       setReplayTo(replayToUser?.user?.user_name);
     }
-  }, [parentId]);
+  }, [parentId, un_structuredCommands]);
 
   const router = useRouter();
 
