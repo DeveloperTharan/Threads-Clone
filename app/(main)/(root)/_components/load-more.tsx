@@ -24,7 +24,7 @@ export const LoadMore = () => {
     if (inView) {
       loadMore();
     }
-  }, [inView, loadMore]);
+  }, [inView]);
 
   return (
     <>
