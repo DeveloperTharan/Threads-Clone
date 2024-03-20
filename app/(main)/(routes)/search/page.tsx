@@ -1,7 +1,19 @@
-import React from 'react'
+import { Metadata } from "next";
+import React from "react";
+import { SearchComponent } from "./_components/search";
+import { getAllUser } from "@/data/search";
 
-export default function Search() {
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Search - Threads",
+  };
+}
+
+export default async function Search() {
+  const user = await getAllUser({ page: 1 });
   return (
-    <div>Search</div>
-  )
+    <>
+      <SearchComponent user={user} />
+    </>
+  );
 }

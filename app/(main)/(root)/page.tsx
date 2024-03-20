@@ -9,12 +9,12 @@ export default async function HomePage() {
 
   return (
     <div className="h-full flex flex-col space-y-5 w-full md:w-[60%] mx-auto px-5 md:px-0 pb-20 md:pb-0">
-      <CreateThreadTrigger />
+      {/* <CreateThreadTrigger />
       {threads?.map((threads, index) => (
         <div
           key={index}
           className="h-full w-full flex flex-col items-start justify-start border-b border-spacing-10
-        border-neutral-700 pb-4"
+          border-neutral-700 pb-4"
         >
           <ThreadUi
             userData={{
@@ -35,7 +35,7 @@ export default async function HomePage() {
           />
         </div>
       ))}
-      <LoadMore />
+      <LoadMore /> */}
     </div>
   );
 }
