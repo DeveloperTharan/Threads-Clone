@@ -105,7 +105,7 @@ export const Header = () => {
           </button>
         </div>
         <Dropdown
-          className="bg-transparent border border-neutral-700 rounded-lg"
+          className="bg-background border border-neutral-700 rounded-lg"
           placement="bottom-end"
         >
           <DropdownTrigger>

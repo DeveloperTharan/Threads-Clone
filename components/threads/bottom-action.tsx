@@ -44,54 +44,57 @@ export const ThreadBottomAction = ({
   const structuredCommands = StructureData(commands);
 
   return (
-    <div className="w-full flex flex-row items-center justify-start gap-x-3 mt-2">
-      {liked.liked ? (
-        <IoHeartSharp
-          size={30}
-          className={cn(
-            "p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform active:scale-75 transition-transform",
-            liked.liked === true && "text-rose-600"
-          )}
-          role="button"
-          onClick={handleLike}
-        />
-      ) : (
-        <GoHeart
-          size={30}
-          className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
+    <>
+      <div className="w-full flex flex-row items-center justify-start gap-x-3 mt-2">
+        {liked.liked ? (
+          <IoHeartSharp
+            size={30}
+            className={cn(
+              "p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform active:scale-75 transition-transform",
+              liked.liked === true && "text-rose-600"
+            )}
+            role="button"
+            onClick={handleLike}
+          />
+        ) : (
+          <GoHeart
+            size={30}
+            className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
           active:scale-75 transition-transform"
-          role="button"
-          onClick={handleLike}
-        />
-      )}
-      <CommandsModel
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        thread_id={thread_id}
-        structuredCommands={structuredCommands}
-        un_structuredCommands={commands}
-      >
-        <IoChatbubblesOutline
+            role="button"
+            onClick={handleLike}
+          />
+        )}
+        <CommandsModel
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          thread_id={thread_id}
+          structuredCommands={structuredCommands}
+          un_structuredCommands={commands}
+        >
+          <IoChatbubblesOutline
+            size={30}
+            className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
+        active:scale-75 transition-transform"
+            role="button"
+          />
+        </CommandsModel>
+        <ShareThread thread_url={thread_url}>
+          <CiLocationArrow1
+            size={30}
+            className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
+          active:scale-75 transition-transform"
+            role="button"
+          />
+        </ShareThread>
+        <PiArrowsClockwise
           size={30}
           className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
         active:scale-75 transition-transform"
-          role="button"
         />
-      </CommandsModel>
-      <ShareThread thread_url={thread_url}>
-        <CiLocationArrow1
-          size={30}
-          className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
-          active:scale-75 transition-transform"
-          role="button"
-        />
-      </ShareThread>
-      <PiArrowsClockwise
-        size={30}
-        className="p-1 hover:bg-neutral-700/30 text-neutral-500 rounded-full outline-0 transform 
-        active:scale-75 transition-transform"
-      />
-    </div>
+      </div>
+      <p className="text-sm text-neutral-700">{liked.like_count} likes</p>
+    </>
   );
 };
 
@@ -131,9 +134,7 @@ const ShareThread = ({
       </PopoverTrigger>
       <PopoverContent>
         <div className="space-y-2">
-          <p className="text-xs font-medium text-sky-500">
-            Share this Thread!
-          </p>
+          <p className="text-xs font-medium text-sky-500">Share this Thread!</p>
           <div className="flex items-center">
             <input
               className="flex-1 px-2 text-xs rounded-l-md h-8 bg-neutral-900 truncate border border-neutral-700"

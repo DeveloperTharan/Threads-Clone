@@ -13,15 +13,16 @@ export const LoadMore = () => {
 
   const { ref, inView } = useInView();
 
-  const loadMore = async () => {
-    const nextPage = pagesLoaded + 1;
-    const newThreads: any[] = (await getAllThreads({ page: nextPage })) ?? [];
-    setThreads((prevThreads) => [...prevThreads, ...newThreads]);
-    setPagesLoaded(nextPage);
-  };
-
   useEffect(() => {
     if (inView) {
+      const loadMore = async () => {
+        const nextPage = pagesLoaded + 1;
+        const newThreads: any[] =
+          (await getAllThreads({ page: nextPage })) ?? [];
+        setThreads((prevThreads) => [...prevThreads, ...newThreads]);
+        setPagesLoaded(nextPage);
+      };
+
       loadMore();
     }
   }, [inView]);

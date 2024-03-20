@@ -8,7 +8,7 @@ export default async function HomePage() {
   const threads = await getAllThreads({ page: 1 });
 
   return (
-    <div className="h-full flex flex-col space-y-5 w-full md:w-[60%] mx-auto">
+    <div className="h-full flex flex-col space-y-5 w-full md:w-[60%] mx-auto px-5 md:px-0 pb-20 md:pb-0">
       <CreateThreadTrigger />
       {threads?.map((threads, index) => (
         <div

@@ -9,7 +9,7 @@ export default async function Mainlayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="w-full max-w-[900px] h-full mx-auto">
+    <div className="w-full max-w-[900px] h-auto mx-auto">
       <Header />
       {children}
       <BottomBar />
