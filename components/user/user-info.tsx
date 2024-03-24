@@ -1,11 +1,15 @@
-import React from "react";
-import { redirect } from "next/navigation";
+"use client";
 
-import { auth } from "@/auth";
+import React, { useTransition } from "react";
+import { redirect, useRouter } from "next/navigation";
+
+import { Spinner } from "../ui/spinner";
+import { Avatar, Button } from "@nextui-org/react";
 import { EditProfile } from "../models/edit-profile";
 import { Gender, Follows, User } from "@prisma/client";
-
-import { Avatar, Button } from "@nextui-org/react";
+import { useCurrentUser } from "@/hooks/use-current-user";
+import { toggleFollow } from "@/actions/follow";
+import toast from "react-hot-toast";
 
 interface UserDataProps {
   userData:
@@ -18,9 +22,29 @@ interface UserDataProps {
   gender: Gender[] | null;
 }
 
-export const UserInfo = async ({ userData, gender }: UserDataProps) => {
-  const session = await auth();
-  if (!session) return redirect("/auth/sign-in");
+export const UserInfo = ({ userData, gender }: UserDataProps) => {
+  const [isPending, startTransition] = useTransition();
+
+  const user = useCurrentUser();
+  if (!user) return redirect("/auth/sign-in");
+
+  const router = useRouter();
+
+  const handleFollow = () => {
+    startTransition(() => {
+      if (user.id && userData?.id !== undefined) {
+        toggleFollow({
+          followerUserId: user.id,
+          followingUserId: userData?.id,
+        })
+          .then((data) => {
+            if (data.success) return toast.success(data.success);
+            if (data.error) return toast.error(data.error);
+          })
+          .finally(() => router.refresh());
+      }
+    });
+  };
 
   return (
     <div className="w-full h-auto min-h-44 p-5">
@@ -62,8 +86,23 @@ export const UserInfo = async ({ userData, gender }: UserDataProps) => {
         </div>
       </div>
       <div className="my-5 w-full h-fit">
-        {userData?.id !== session.user.id ? (
-          <Button className="w-full rounded-lg">Follow</Button>
+        {userData?.id !== user.id ? (
+          <Button
+            variant="flat"
+            className="w-full rounded-lg"
+            onClick={handleFollow}
+            disabled={isPending}
+          >
+            {isPending ? (
+              <Spinner size={"lg"} />
+            ) : userData?.followers.find(
+                (data) => data.followerId === user.id
+              ) ? (
+              "Following"
+            ) : (
+              "Follow"
+            )}
+          </Button>
         ) : (
           <EditProfile initialData={userData} gender={gender}>
             Edit Profile
