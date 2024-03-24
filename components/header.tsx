@@ -83,7 +83,7 @@ export const Header = () => {
               <RiShareCircleLine size={24} className={cn("text-neutral-500")} />
             </div>
           </CreateThreadModel>
-          <button className="btn" onClick={() => router.push("/activity")}>
+          <button className="btn" onClick={() => router.push("/activity")} disabled={true}>
             <PiHeart
               size={24}
               className={cn(
