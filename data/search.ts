@@ -1,49 +1,10 @@
+"use server";
+
 import { db } from "@/lib/db";
 
-export const getUserBySearch = async ({
-  page,
-  perPage = 10,
-  search,
-}: {
-  page: number;
-  perPage?: number;
-  search: string;
-}) => {
+export const getThreadsBySearch = async (search: string) => {
   try {
-    const skip = (page - 1) * perPage;
-    const take = perPage;
-    const user = await db.user.findMany({
-      skip: skip,
-      take: take,
-      where: {
-        user_name: {
-          contains: search,
-          mode: "insensitive",
-        },
-      },
-    });
-
-    return user;
-  } catch (error) {
-    return null;
-  }
-};
-
-export const getThreadsBySearch = async ({
-  page,
-  perPage = 3,
-  search,
-}: {
-  page: number;
-  perPage?: number;
-  search: string;
-}) => {
-  try {
-    const skip = (page - 1) * perPage;
-    const take = perPage;
     const threads = await db.threads.findMany({
-      skip: skip,
-      take: take,
       where: {
         OR: [
           {
@@ -67,6 +28,15 @@ export const getThreadsBySearch = async ({
             },
           },
         ],
+      },
+      include: {
+        user: true,
+        likes: true,
+        command: {
+          include: {
+            user: true,
+          },
+        },
       },
     });
 

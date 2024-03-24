@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useTransition } from "react";
+import React, { useCallback, useState, useTransition } from "react";
 
 import { z } from "zod";
 import toast from "react-hot-toast";
@@ -60,6 +60,10 @@ export const UserDataUpdateForm = ({
   const router = useRouter();
   const pathname = usePathname();
   const { update } = useSession();
+
+  const handleStatus = useCallback(() => {
+    (data: string) => form.setValue("status", data);
+  }, [form]);
 
   const onSubmit = (values: z.infer<typeof formSchema>) => {
     startTransition(() => {
@@ -148,15 +152,11 @@ export const UserDataUpdateForm = ({
             <div className="w-1/2 flex items-center justify-start gap-x-2 md:gap-x-2">
               <span className="text-sm text-neutral-500">Status:</span>
               {initialdata?.status ? (
-                <IconPicker
-                  onChange={(data: string) => form.setValue("status", data)}
-                >
+                <IconPicker onChange={handleStatus}>
                   <span>{initialdata.status}</span>
                 </IconPicker>
               ) : (
-                <IconPicker
-                  onChange={(data: string) => form.setValue("status", data)}
-                >
+                <IconPicker onChange={handleStatus}>
                   <Avatar src={""} alt="status" size="sm" />
                 </IconPicker>
               )}
