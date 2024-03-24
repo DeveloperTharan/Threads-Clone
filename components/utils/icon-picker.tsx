@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { memo } from "react";
 
 import {
   Dropdown,
@@ -38,4 +38,4 @@ const IconPicker = ({ onChange, children }: IconPickerProps) => {
   );
 };
 
-export default React.memo(IconPicker);
+export default memo(IconPicker);
