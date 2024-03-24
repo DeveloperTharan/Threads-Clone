@@ -3,13 +3,13 @@
 import React, { useTransition } from "react";
 import { redirect, useRouter } from "next/navigation";
 
+import toast from "react-hot-toast";
 import { Spinner } from "../ui/spinner";
+import { toggleFollow } from "@/actions/follow";
 import { Avatar, Button } from "@nextui-org/react";
 import { EditProfile } from "../models/edit-profile";
 import { Gender, Follows, User } from "@prisma/client";
 import { useCurrentUser } from "@/hooks/use-current-user";
-import { toggleFollow } from "@/actions/follow";
-import toast from "react-hot-toast";
 
 interface UserDataProps {
   userData:
@@ -24,11 +24,11 @@ interface UserDataProps {
 
 export const UserInfo = ({ userData, gender }: UserDataProps) => {
   const [isPending, startTransition] = useTransition();
-
-  const user = useCurrentUser();
-  if (!user) return redirect("/auth/sign-in");
-
+  
   const router = useRouter();
+  const user = useCurrentUser();
+  
+  if (!user) return redirect("/auth/sign-in");
 
   const handleFollow = () => {
     startTransition(() => {
