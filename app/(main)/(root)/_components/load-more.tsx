@@ -1,36 +1,19 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import { getAllThreads } from "@/data/thread";
 import { Spinner } from "@/components/ui/spinner";
-import { useInView } from "react-intersection-observer";
 import { ThreadUi } from "@/components/threads/thread-ui";
+import { useLoadMore } from "@/hooks/use-loadmore";
 
 export const LoadMore = () => {
-  const [threads, setThreads] = useState<any[]>([]);
-  const [pagesLoaded, setPagesLoaded] = useState<number>(1);
-
-  const { ref, inView } = useInView();
-
-  useEffect(() => {
-    if (inView) {
-      const loadMore = async () => {
-        const nextPage = pagesLoaded + 1;
-        const newThreads: any[] =
-          (await getAllThreads({ page: nextPage })) ?? [];
-        setThreads((prevThreads) => [...prevThreads, ...newThreads]);
-        setPagesLoaded(nextPage);
-      };
-
-      loadMore();
-    }
-  }, [inView]);
+  const { ref, loadData } = useLoadMore({ getFunction: getAllThreads });
 
   return (
     <>
       <div className="h-full flex flex-col space-y-5 w-full">
-        {threads?.map((threads, index) => (
+        {loadData?.map((threads, index) => (
           <div
             key={index}
             className="h-full w-full flex flex-col items-start justify-start border-b border-spacing-10

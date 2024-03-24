@@ -2,15 +2,13 @@ import React from "react";
 import { getAllThreads } from "@/data/thread";
 import { LoadMore } from "./_components/load-more";
 import { ThreadUi } from "@/components/threads/thread-ui";
-import { CreateThreadTrigger } from "./_components/create-th-trigger";
 
 export default async function HomePage() {
   const threads = await getAllThreads({ page: 1 });
 
   return (
     <div className="h-full flex flex-col space-y-5 w-full md:w-[60%] mx-auto px-5 md:px-0 pb-20 md:pb-0">
-      {/* <CreateThreadTrigger />
-      {threads?.map((threads, index) => (
+      {/* {threads?.map((threads, index) => (
         <div
           key={index}
           className="h-full w-full flex flex-col items-start justify-start border-b border-spacing-10
